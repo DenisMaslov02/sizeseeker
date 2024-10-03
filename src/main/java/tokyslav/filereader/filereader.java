@@ -3,12 +3,11 @@ package tokyslav.filereader;
 import tokyslav.gui.GUI;
 
 public class filereader {
-
-    private GUI myGui;
-    
-    public filereader(GUI p_Gui){
+   
+    public filereader(){
         //constructor of class
-        myGui = p_Gui;
+
+        
     }
 
 
