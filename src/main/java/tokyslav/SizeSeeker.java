@@ -9,7 +9,7 @@ import javax.swing.JPanel;
  * Hello world!
  *
  */
-public class App {
+public class SizeSeeker {
 
     private static final String myText = "HelloText";
 

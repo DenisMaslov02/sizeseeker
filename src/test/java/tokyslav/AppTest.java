@@ -20,7 +20,7 @@ public class AppTest
 
     @Test
     public void isTextcorrect(){
-        assertEquals("HelloText", App.getMyText());
+        assertEquals("HelloText", SizeSeeker.getMyText());
     }
 
 }
