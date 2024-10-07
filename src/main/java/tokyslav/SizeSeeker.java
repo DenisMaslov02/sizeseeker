@@ -1,9 +1,13 @@
 package tokyslav;
 
+import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import tokyslav.filereader.filereader;
 
 /**
  * Hello world!
@@ -15,7 +19,13 @@ public class SizeSeeker {
 
     public static void main(String[] args) {
         System.out.println(myText);
-        createMyWindow();
+        // createMyWindow();
+        try {
+            filereader.getFileNames();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public static String getMyText() {
@@ -25,7 +35,7 @@ public class SizeSeeker {
     private static void createMyWindow() {
         JFrame frame = new JFrame("JFrame Example");
         JPanel panel = new JPanel();
-        //panel.setLayout(new GridLayout());
+        // panel.setLayout(new GridLayout());
         JLabel label = new JLabel("JFrame By Example");
         JButton button = new JButton();
         button.setText("Button");
