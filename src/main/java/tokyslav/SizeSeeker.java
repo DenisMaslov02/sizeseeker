@@ -1,6 +1,5 @@
 package tokyslav;
 
-import tokyslav.filereader.filereader;
 import tokyslav.gui.GUI;
 
 /**

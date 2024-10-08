@@ -3,10 +3,10 @@ package tokyslav.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,13 +20,14 @@ public class GUI {
     
     private final int width = 800;
     private final int height = 600;
+    private JFrame frame;
 
     private String actualPath = " ";
 
 
     public GUI(){
         //constructor of Gui
-        JFrame frame = new JFrame("SizeSeeker");
+        frame = new JFrame("SizeSeeker");
         frame.setLayout(new BorderLayout());
         
         frame.setSize(width,height);
@@ -64,14 +65,15 @@ public class GUI {
     private void goBackButtonFunction(){
         //System.out.println("Hello u Son of bitch");
         // opens parent directory and lists all of the files there
+        System.out.println(frame.WIDTH);
     }
 
     private JPanel centerJPanel(){
         JPanel centerPanel = new JPanel();
-        centerPanel.setSize(width, 400);
+        centerPanel.setSize(frame.WIDTH, frame.HEIGHT - 100);
         centerPanel.setBackground(Color.CYAN);
-        centerPanel.setLayout(new FlowLayout());
-
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
+        
         for (Fileobject i : filereader.getInfoFromPath("hehe")) {
             centerPanel.add(createFileObjectPanel(i));
         }
@@ -80,9 +82,9 @@ public class GUI {
      private JPanel createFileObjectPanel(Fileobject tempFileobject){
         JPanel fileObjectPanel = new JPanel();
         fileObjectPanel.setLayout(new BorderLayout());
-        fileObjectPanel.setSize(width,50);
+        fileObjectPanel.setSize(frame.WIDTH,50);
         
-        fileObjectPanel.setPreferredSize(new Dimension(width, 50));
+        //fileObjectPanel.setPreferredSize(new Dimension(frame.WIDTH, 50));
         
         ImageIcon icon = new ImageIcon("C:\\Users\\denis\\Desktop\\Dir_Icon.png");  
         Image img = icon.getImage();
