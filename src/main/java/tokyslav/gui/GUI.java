@@ -18,17 +18,14 @@ import tokyslav.filereader.filereader;
 
 public class GUI {
     
-    private filereader myFilereader;    
     private final int width = 800;
     private final int height = 600;
 
     private String actualPath = " ";
 
 
-    public GUI(filereader p_filrereader){
+    public GUI(){
         //constructor of Gui
-        myFilereader = p_filrereader;
-
         JFrame frame = new JFrame("SizeSeeker");
         frame.setLayout(new BorderLayout());
         

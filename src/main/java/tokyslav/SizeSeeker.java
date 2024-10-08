@@ -13,7 +13,7 @@ public class SizeSeeker {
 
     public static void main(String[] args) {
         System.out.println(myText);
-        new GUI(new filereader());
+        new GUI();
     }
 
     public static String getMyText() {
