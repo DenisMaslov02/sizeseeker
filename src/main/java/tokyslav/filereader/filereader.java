@@ -2,8 +2,6 @@ package tokyslav.filereader;
 
 import java.util.*;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
-
 import com.google.common.io.Files;
 
 import java.io.File;
