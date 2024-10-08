@@ -3,12 +3,17 @@ package tokyslav.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tokyslav.Fileobject;
 import tokyslav.filereader.filereader;
 
 public class GUI {
@@ -61,15 +66,46 @@ public class GUI {
     
     private void goBackButtonFunction(){
         //System.out.println("Hello u Son of bitch");
-        // opens parent directory and lists all of the files there
+        // opens parent directory and lists all of the files there        
     }
 
     private JPanel centerJPanel(){
         JPanel centerPanel = new JPanel();
         centerPanel.setSize(width, 400);
         centerPanel.setBackground(Color.CYAN);
+        centerPanel.setLayout(new FlowLayout());
+
+        for (Fileobject i : filereader.getInfoFromPath("hehe")) {
+            centerPanel.add(createFileObjectPanel(i));
+        }
         return centerPanel;
     }
+    private JPanel createFileObjectPanel(Fileobject tempFileobject){
+        JPanel fileObjectPanel = new JPanel();
+        fileObjectPanel.setLayout(new BorderLayout());
+        fileObjectPanel.setSize(width,50);
+        
+        fileObjectPanel.setPreferredSize(new Dimension(width, 50));
+        
+        ImageIcon icon = new ImageIcon("C:\\Users\\denis\\Desktop\\Dir_Icon.png");  
+        Image img = icon.getImage();
+        Image newimg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newimg);
+        JButton cornerButton = new JButton(icon);
+        cornerButton.setSize(20,20);
+        cornerButton.setBorder(BorderFactory.createEmptyBorder());
+        cornerButton.setContentAreaFilled(false);
+        fileObjectPanel.add(cornerButton,BorderLayout.LINE_START);
+
+        JLabel fileNameLabel = new JLabel(tempFileobject.getFileName());
+        fileObjectPanel.add(fileNameLabel,BorderLayout.CENTER);
+
+        JLabel fileSizeLabel = new JLabel(tempFileobject.getSize());
+        fileObjectPanel.add(fileSizeLabel,BorderLayout.LINE_END);
+
+        return fileObjectPanel;
+    }
+
     
     private JPanel southJPanel(){
         JPanel southPanel = new JPanel();
