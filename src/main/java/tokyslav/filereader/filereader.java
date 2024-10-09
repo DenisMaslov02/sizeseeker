@@ -12,6 +12,40 @@ import java.nio.file.Paths;
 
 public class filereader {
 
+    public void SystemCall(String Data) {
+        System.out.println("Folder:" + Data);
+    }
+
+    private File getRoots;
+
+    public static void getRoots() {
+        File[] roots = File.listRoots();
+
+        if (roots != null && roots.length > 0) {
+            for (File aDrive : roots) {
+                System.out.println(aDrive);
+            }
+        }
+    }
+
+    public void getPathDrive(File getRootsInfo) {
+
+        this.getRoots = getRootsInfo;
+
+        File[] getRootsEnd = getRootsInfo.listFiles();
+
+        System.out.println("Hey");
+
+        for (int pathSizeInt = 0; pathSizeInt < getRootsEnd.length; pathSizeInt++) {
+            String getPath = getRootsEnd[pathSizeInt].toString();
+            System.out.println(getPath);
+        }
+    }
+
+    public static void getBackPath() {
+
+    }
+
     @SuppressWarnings("unchecked")
     public static <Interger> void getFileNames() throws IOException {
 
@@ -53,8 +87,8 @@ public class filereader {
                 // for print!!! Don´t delete
             }
         }
-        // System.out.println(myDataList);
-        // System.out.println(myDataTyp);
+        System.out.println(myDataList);
+        System.out.println(myDataTyp);
         // System.out.println(myDataSize);
     }
 }
