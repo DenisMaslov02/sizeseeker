@@ -4,41 +4,42 @@ import java.util.*;
 
 import com.google.common.io.Files;
 
+import tokyslav.Fileobject;
+
 import java.io.File;
 import java.io.IOException;
+
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class filereader {
 
-    public void SystemCall(String Data) {
-        System.out.println("Folder:" + Data);
+    public static File[] getRoots() {
+        File[] roots = File.listRoots();
+        return roots;
     }
 
-    private File getRoots;
+    @SuppressWarnings("unchecked")
+    public static <Interger> void getPathDrive() throws IOException {
 
-    public static void getRoots() {
-        File[] roots = File.listRoots();
+        File[] getRoots = getRoots();
 
-        if (roots != null && roots.length > 0) {
-            for (File aDrive : roots) {
-                System.out.println(aDrive);
+        List myHardDrive = new LinkedList<Interger>();
+
+        if (getRoots != null && getRoots.length > 0) {
+            for (int pathDrivInt = 0; pathDrivInt < getRoots.length; pathDrivInt++) {
+                myHardDrive.add(getRoots[pathDrivInt].toString());
             }
         }
+        System.out.println(myHardDrive);
     }
 
-    public void getPathDrive(File getRootsInfo) {
+    public static void openHardDrive() {
 
-        this.getRoots = getRootsInfo;
+        File[] roots = File.listRoots();
+        if (roots != null && roots.length > 0) {
 
-        File[] getRootsEnd = getRootsInfo.listFiles();
-
-        System.out.println("Hey");
-
-        for (int pathSizeInt = 0; pathSizeInt < getRootsEnd.length; pathSizeInt++) {
-            String getPath = getRootsEnd[pathSizeInt].toString();
-            System.out.println(getPath);
         }
     }
 

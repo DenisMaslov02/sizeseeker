@@ -21,14 +21,20 @@ public class SizeSeeker {
     public static void main(String[] args) {
         // System.out.println(myText);
         // createMyWindow();
-        filereader.getRoots();
-        filereader.getPathDrive();
+        // filereader.getRoots();
+        try {
+            filereader.getPathDrive();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // try {
         // filereader.getFileNames();
         // } catch (IOException e) {
         // // TODO Auto-generated catch block
         // e.printStackTrace();
         // }
+        // new GUI();
     }
 
     public static String getMyText() {
