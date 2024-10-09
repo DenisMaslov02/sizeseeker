@@ -65,12 +65,13 @@ public class GUI {
     private void goBackButtonFunction(){
         //System.out.println("Hello u Son of bitch");
         // opens parent directory and lists all of the files there
-        System.out.println(frame.WIDTH);
+        System.out.println(frame.getWidth());
     }
 
     private JPanel centerJPanel(){
         JPanel centerPanel = new JPanel();
         centerPanel.setSize(frame.WIDTH, frame.HEIGHT - 100);
+        // centerPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT - 100)));
         centerPanel.setBackground(Color.CYAN);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         
@@ -79,14 +80,14 @@ public class GUI {
         }
         return centerPanel;
     }
-     private JPanel createFileObjectPanel(Fileobject tempFileobject){
+    private JPanel createFileObjectPanel(Fileobject tempFileobject){
         JPanel fileObjectPanel = new JPanel();
         fileObjectPanel.setLayout(new BorderLayout());
         fileObjectPanel.setSize(frame.WIDTH,50);
         
         //fileObjectPanel.setPreferredSize(new Dimension(frame.WIDTH, 50));
         
-        ImageIcon icon = new ImageIcon("C:\\Users\\denis\\Desktop\\Dir_Icon.png");  
+        ImageIcon icon = new ImageIcon("src\\main\\java\\tokyslav\\gui\\Dir_Icon.png");  
         Image img = icon.getImage();
         Image newimg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
