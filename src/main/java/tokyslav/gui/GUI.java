@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tokyslav.FileTypes;
 import tokyslav.Fileobject;
 import tokyslav.filereader.filereader;
 
@@ -23,7 +24,6 @@ public class GUI {
     private JFrame frame;
 
     private String actualPath = " ";
-
 
     public GUI(){
         //constructor of Gui
@@ -48,7 +48,7 @@ public class GUI {
         headPanel.setPreferredSize(d);
         headPanel.setBackground(Color.white);
         headPanel.setLayout(new BorderLayout());
-    
+        
         JButton goBackButton = new JButton();
         goBackButton.setText("DU HURENSOHN");//Zurück
         goBackButton.addActionListener(e -> goBackButtonFunction());
@@ -87,16 +87,16 @@ public class GUI {
         
         //fileObjectPanel.setPreferredSize(new Dimension(frame.WIDTH, 50));
         
-        ImageIcon icon = new ImageIcon("src\\main\\java\\tokyslav\\gui\\Dir_Icon.png");  
+        ImageIcon icon = new ImageIcon(getImagePath(tempFileobject.getFileType()));  
         Image img = icon.getImage();
-        Image newimg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        Image newimg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
         JButton cornerButton = new JButton(icon);
         cornerButton.setSize(20,20);
         cornerButton.setBorder(BorderFactory.createEmptyBorder());
         cornerButton.setContentAreaFilled(false);
         fileObjectPanel.add(cornerButton,BorderLayout.LINE_START);
-
+        
         JLabel fileNameLabel = new JLabel(tempFileobject.getFileName());
         fileObjectPanel.add(fileNameLabel,BorderLayout.CENTER);
 
@@ -104,6 +104,24 @@ public class GUI {
         fileObjectPanel.add(fileSizeLabel,BorderLayout.LINE_END);
 
         return fileObjectPanel;
+    }
+    private String getImagePath(FileTypes type){
+        String imgPath;
+        switch(type){
+            case DIRECTORY:
+                imgPath = "src\\main\\java\\tokyslav\\gui\\Dir_Icon.png";
+                break;
+            case FILE:
+                imgPath = "src\\main\\java\\tokyslav\\gui\\File_Icon.png";
+                break;
+            case DRIVE:
+                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon.png";
+                break;
+            default:
+                imgPath = "src\\main\\java\\tokyslav\\gui\\Other_Icon.png";
+                break;
+            }
+        return imgPath;
     }
 
     
