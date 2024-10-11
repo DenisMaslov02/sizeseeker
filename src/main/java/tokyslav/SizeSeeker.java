@@ -21,13 +21,14 @@ public class SizeSeeker {
     public static void main(String[] args) {
         // System.out.println(myText);
         // createMyWindow();
-        // filereader.getRoots();
-        try {
-            filereader.getPathDrive();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // for (Fileobject x : filereader.getObject()) {
+        // System.out.println(x.getFileName());
+        // System.out.println(x.getSize());
+        // System.out.println(x.getFileType());
+        // }
+        // System.out.println(filereader.getRoots()[0].toString());
+        filereader.getParent("C:\\");
+        // filereader.getObject();
         // try {
         // filereader.getFileNames();
         // } catch (IOException e) {

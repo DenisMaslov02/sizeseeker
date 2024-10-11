@@ -4,11 +4,12 @@ import java.util.*;
 
 import com.google.common.io.Files;
 
+import tokyslav.FileTypes;
 import tokyslav.Fileobject;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,19 +21,65 @@ public class filereader {
         return roots;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <Interger> void getPathDrive() throws IOException {
+    public static Fileobject[] getPathDrive() {
 
-        File[] getRoots = getRoots();
+        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+        for (File file : getRoots()) {
+            fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null, FileTypes.DRIVE));
+        }
+        return fileobjectlist.toArray(new Fileobject[0]);
+    }
 
-        List myHardDrive = new LinkedList<Interger>();
+    public static Fileobject[] getInfoFromPath(URI infoFromPath) {
 
-        if (getRoots != null && getRoots.length > 0) {
-            for (int pathDrivInt = 0; pathDrivInt < getRoots.length; pathDrivInt++) {
-                myHardDrive.add(getRoots[pathDrivInt].toString());
+        Path getPath = Path.of(infoFromPath);
+        Path parentPath = getPath.getParent();
+
+        File parentFile = parentPath.toFile();
+        File[] parentFileList = parentFile.listFiles();
+
+        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+
+        for (File file : parentFileList) {
+            fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null, findFileType(file)));
+        }
+        return fileobjectlist.toArray(new Fileobject[0]);
+    }
+
+    public static String getParent(String backpath) {
+
+        File[] roots = File.listRoots();
+
+        boolean foundRoots = false;
+
+        for (int rootsInd = 0; rootsInd < roots.length; rootsInd++) {
+
+            if (backpath == roots[rootsInd].toString()) {
+                foundRoots = false;
+                System.out.println("You can go Back!");
+            } else {
+                foundRoots = true;
+                System.out.println("You can not go Back!");
             }
         }
-        System.out.println(myHardDrive);
+        if (foundRoots == false) {
+            Path getPath = Path.of(backpath);
+            String parentPath = getPath.getParent().toString();
+            System.out.println(parentPath);
+            backpath = parentPath;
+        }
+        return backpath;
+    }
+
+    public static FileTypes findFileType(File fileTypee) {
+
+        FileTypes type;
+
+        String ext = fileTypee.toString();
+        String fileExt = Files.getFileExtension(ext);
+
+        type = FileTypes.DIRECTORY;
+        return type;
     }
 
     public static void openHardDrive() {
