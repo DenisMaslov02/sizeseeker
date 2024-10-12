@@ -2,6 +2,8 @@ package tokyslav.filereader;
 
 import java.util.*;
 
+import javax.sound.sampled.SourceDataLine;
+
 import com.google.common.io.Files;
 
 import tokyslav.FileTypes;
@@ -15,36 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class filereader {
-
-    public static File[] getRoots() {
-        File[] roots = File.listRoots();
-        return roots;
-    }
-
-    public static Fileobject[] getPathDrive() {
-
-        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-        for (File file : getRoots()) {
-            fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null, FileTypes.DRIVE));
-        }
-        return fileobjectlist.toArray(new Fileobject[0]);
-    }
-
-    public static Fileobject[] getInfoFromPath(URI infoFromPath) {
-
-        Path getPath = Path.of(infoFromPath);
-        Path parentPath = getPath.getParent();
-
-        File parentFile = parentPath.toFile();
-        File[] parentFileList = parentFile.listFiles();
-
-        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-
-        for (File file : parentFileList) {
-            fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null, findFileType(file)));
-        }
-        return fileobjectlist.toArray(new Fileobject[0]);
-    }
 
     public static String getParent(String backpath) {
 
@@ -65,21 +37,49 @@ public class filereader {
         if (foundRoots == false) {
             Path getPath = Path.of(backpath);
             String parentPath = getPath.getParent().toString();
-            System.out.println(parentPath);
             backpath = parentPath;
         }
         return backpath;
+    }
+
+    public static Fileobject[] getInfoFromPath(String infoFromPath) {
+
+        File getFile = new File(infoFromPath);
+        File[] getFileList = getFile.listFiles();
+
+        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+
+        for (File file : getFileList) {
+            fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null, findFileType(file)));
+        }
+        return fileobjectlist.toArray(new Fileobject[0]);
     }
 
     public static FileTypes findFileType(File fileTypee) {
 
         FileTypes type;
 
+        Path pathtype = fileTypee.toPath();
         String ext = fileTypee.toString();
         String fileExt = Files.getFileExtension(ext);
+        System.out.println(fileExt);
 
         type = FileTypes.DIRECTORY;
         return type;
+    }
+
+    public static File[] getRoots() {
+        File[] roots = File.listRoots();
+        return roots;
+    }
+
+    public static Fileobject[] getPathDrive() {
+
+        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+        for (File file : getRoots()) {
+            fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null, FileTypes.DRIVE));
+        }
+        return fileobjectlist.toArray(new Fileobject[0]);
     }
 
     public static void openHardDrive() {
