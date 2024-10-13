@@ -6,6 +6,7 @@ import javax.sound.sampled.SourceDataLine;
 
 import com.google.common.io.Files;
 
+import scala.collection.StringOps.StringIterator;
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
 
@@ -17,6 +18,32 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class filereader {
+
+    public static Fileobject[] getInfoFromPath(String infoFromPath) {
+
+        File getFile = new File(infoFromPath);
+        File[] getFileList = getFile.listFiles();
+
+        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+
+        if (infoFromPath == getParent(infoFromPath)) {
+            fileobjectlist.add(new Fileobject(infoFromPath, sendFileSizeBack(getFile),
+                    FileTypes.DRIVE));
+            for (File file : getFileList) {
+                fileobjectlist.add(new Fileobject(file.getAbsolutePath(),
+                        sendFileSizeBack(file),
+                        findFileType(file)));
+            }
+        }
+        if (infoFromPath != getParent(infoFromPath)) {
+            for (File file : getFileList) {
+                fileobjectlist.add(new Fileobject(file.getAbsolutePath(),
+                        sendFileSizeBack(file),
+                        findFileType(file)));
+            }
+        }
+        return fileobjectlist.toArray(new Fileobject[0]);
+    }
 
     public static String getParent(String backpath) {
 
@@ -42,29 +69,25 @@ public class filereader {
         return backpath;
     }
 
-    public static Fileobject[] getInfoFromPath(String infoFromPath) {
+    public static String sendFileSizeBack(File infoFromPath) {
 
-        File getFile = new File(infoFromPath);
-        File[] getFileList = getFile.listFiles();
+        return infoFromPath.length() + "bytes";
 
-        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-
-        for (File file : getFileList) {
-            fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null, findFileType(file)));
-        }
-        return fileobjectlist.toArray(new Fileobject[0]);
     }
 
     public static FileTypes findFileType(File fileTypee) {
 
         FileTypes type;
 
-        Path pathtype = fileTypee.toPath();
-        String ext = fileTypee.toString();
-        String fileExt = Files.getFileExtension(ext);
-        System.out.println(fileExt);
-
-        type = FileTypes.DIRECTORY;
+        if (fileTypee.isFile()) {
+            type = FileTypes.FILE;
+        } else if (!fileTypee.isFile() && !fileTypee.isDirectory()) {
+            type = FileTypes.OTHER;
+        } else if (fileTypee.isDirectory()) {
+            type = FileTypes.DIRECTORY;
+        } else {
+            type = FileTypes.NOTEXIST;
+        }
         return type;
     }
 
@@ -73,14 +96,15 @@ public class filereader {
         return roots;
     }
 
-    public static Fileobject[] getPathDrive() {
+    // public static Fileobject[] getPathDrive() {
 
-        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-        for (File file : getRoots()) {
-            fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null, FileTypes.DRIVE));
-        }
-        return fileobjectlist.toArray(new Fileobject[0]);
-    }
+    // List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+    // for (File file : getRoots()) {
+    // fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null,
+    // FileTypes.DRIVE));
+    // }
+    // return fileobjectlist.toArray(new Fileobject[0]);
+    // }
 
     public static void openHardDrive() {
 

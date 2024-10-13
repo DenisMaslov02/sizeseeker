@@ -1,8 +1,9 @@
 package tokyslav;
 
-public enum FileTypes{
+public enum FileTypes {
     DIRECTORY,
     FILE,
     DRIVE,
-    OTHER
+    OTHER,
+    NOTEXIST
 }
