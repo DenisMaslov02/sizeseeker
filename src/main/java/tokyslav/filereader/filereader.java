@@ -2,17 +2,15 @@ package tokyslav.filereader;
 
 import java.util.*;
 
-import javax.sound.sampled.SourceDataLine;
+import javax.tools.FileObject;
 
 import com.google.common.io.Files;
 
-import scala.collection.StringOps.StringIterator;
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,28 +19,36 @@ public class filereader {
 
     public static Fileobject[] getInfoFromPath(String infoFromPath) {
 
-        File getFile = new File(infoFromPath);
-        File[] getFileList = getFile.listFiles();
+        File pathToRead = new File(infoFromPath);
 
         List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
 
-        if (infoFromPath == getParent(infoFromPath)) {
-            fileobjectlist.add(new Fileobject(infoFromPath, sendFileSizeBack(getFile),
-                    FileTypes.DRIVE));
-            for (File file : getFileList) {
-                fileobjectlist.add(new Fileobject(file.getAbsolutePath(),
-                        sendFileSizeBack(file),
-                        findFileType(file)));
-            }
-        }
-        if (infoFromPath != getParent(infoFromPath)) {
-            for (File file : getFileList) {
-                fileobjectlist.add(new Fileobject(file.getAbsolutePath(),
-                        sendFileSizeBack(file),
-                        findFileType(file)));
-            }
+        if (pathToRead.exists() || pathToRead.isDirectory()) {
+            fileobjectlist = createMethodeFileObjects(infoFromPath);
+            // if (checkroots(infoFromPath)) {
+            // createFileObjects(infoFromPath, true);
+            // } else {
+            // createFileObjects(infoFromPath, false);
+            // }
+        } else {
+            System.out.println("Path doesn´t exists!");
         }
         return fileobjectlist.toArray(new Fileobject[0]);
+    }
+
+    public static List<Fileobject> createMethodeFileObjects(String Path) {
+
+        File getFile = new File(Path);
+        File[] getFileList = getFile.listFiles();
+
+        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+        for (File file : getFileList) {
+            fileobjectlist.add(new Fileobject(file.getAbsolutePath(),
+                    sendFileSizeBack(file),
+                    findFileType(file)));
+        }
+
+        return fileobjectlist;
     }
 
     public static String getParent(String backpath) {
@@ -51,9 +57,9 @@ public class filereader {
 
         boolean foundRoots = false;
 
-        for (int rootsInd = 0; rootsInd < roots.length; rootsInd++) {
+        for (int rootsIndex = 0; rootsIndex < roots.length; rootsIndex++) {
 
-            if (backpath == roots[rootsInd].toString()) {
+            if (backpath != roots[rootsIndex].toString()) {
                 foundRoots = false;
                 System.out.println("You can go Back!");
             } else {
@@ -69,10 +75,55 @@ public class filereader {
         return backpath;
     }
 
+    // public static boolean checkroots(String checkPath) {
+    // boolean checkPathBool = false;
+    // File checkPathFile = new File(checkPath);
+
+    // File[] roots = File.listRoots();
+
+    // for (File file : roots) {
+    // if (file == checkPathFile) {
+    // checkPathBool = true;
+    // return checkPathBool;
+    // }
+    // }
+    // return checkPathBool;
+    // }
+
+    // public static Fileobject[] createFileObjects(String filePath, boolean witch)
+    // {
+
+    // List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+    // if (witch) {
+    // fileobjectlist.add(new Fileobject(filePath,
+    // sendFileSizeBack(new File(filePath)),
+    // FileTypes.DRIVE));
+    // createMethodeFileObjects(filePath);
+    // } else {
+    // createMethodeFileObjects(filePath);
+    // }
+
+    // return fileobjectlist.toArray(new Fileobject[0]);
+    // }
+
     public static String sendFileSizeBack(File infoFromPath) {
 
         return infoFromPath.length() + "bytes";
 
+    }
+
+    public static long getSize(File file) {
+        long size = 0;
+
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (int i = 0; files != null && i < file.length(); i++) {
+                size += getSize(files[i]);
+            }
+        } else {
+            size += file.length();
+        }
+        return size;
     }
 
     public static FileTypes findFileType(File fileTypee) {
@@ -95,76 +146,7 @@ public class filereader {
         File[] roots = File.listRoots();
         return roots;
     }
-
-    // public static Fileobject[] getPathDrive() {
-
-    // List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-    // for (File file : getRoots()) {
-    // fileobjectlist.add(new Fileobject(file.getAbsolutePath(), null,
-    // FileTypes.DRIVE));
-    // }
-    // return fileobjectlist.toArray(new Fileobject[0]);
-    // }
-
-    public static void openHardDrive() {
-
-        File[] roots = File.listRoots();
-        if (roots != null && roots.length > 0) {
-
-        }
-    }
-
-    public static void getBackPath() {
-
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <Interger> void getFileNames() throws IOException {
-
-        List myDataList = new LinkedList<Interger>();
-        List myDataTyp = new LinkedList<Interger>();
-        List myDataSize = new LinkedList<Interger>();
-
-        File root = new File("C:\\");
-        File[] folderRoot = root.listFiles();
-
-        File path = new File("\\");
-        File[] folderSizeList = path.listFiles();
-
-        if (null != root) {
-            for (int folderIntList = 0; folderIntList < folderRoot.length; folderIntList++) {
-
-                String folder = folderRoot[folderIntList].toString();
-                String fileExt = Files.getFileExtension(folderRoot[folderIntList].toString());
-
-                Path pathsize = Paths.get(folderSizeList[folderIntList].toString());
-                FileChannel fileChannel;
-                // Path folderPath = Paths.get(folder[folderIntList].toString);
-                // long sizefile = Files.size(folderRoot[folderIntList]);
-                if (null != folder && folder.length() > 0) {
-                    myDataList.add(folder.substring(folder.lastIndexOf("\\") + 1, folder.length()));
-                    myDataTyp.add(fileExt);
-                    // try {
-                    // fileChannel = FileChannel.open(pathsize);
-                    // long filesize = fileChannel.size();
-                    // System.out.println(filesize + "bytes");
-                    // fileChannel.close();
-                    // } catch (IOException e) {
-                    // e.printStackTrace();
-                    // }
-                }
-                // myDataSize.add(pathsize.size());
-                // System.out.println("File:" + (folderIntList + 1) + ": "
-                // + folder.substring(pathsize.lastIndexOf("\\") + 1, pathsize.length()));
-                // for print!!! Don´t delete
-            }
-        }
-        System.out.println(myDataList);
-        System.out.println(myDataTyp);
-        // System.out.println(myDataSize);
-    }
 }
-
 // Windows: C:\Dev\SizeSeeker_old\src\META-INF
 // Mac/Linx: /Dev/SizeSeeker_old/src/
 

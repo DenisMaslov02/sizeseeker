@@ -21,14 +21,15 @@ public class SizeSeeker {
     public static void main(String[] args) {
         // System.out.println(myText);
         // filereader.getParent("C:\\");
-        for (Fileobject x : filereader.getInfoFromPath("c:\\Users\\Phill")) {
+        for (Fileobject x : filereader.getInfoFromPath("C:\\Users\\Phill")) {
             System.out.println(x.getFileName());
             System.out.println(x.getSize());
-            System.out.println(x.getFileType());
+            System.out.println(x.getFileType();
         }
         // new GUI();
         // filereader.findFileType(C:\\Users\\Phill);
         // filereader.sendFileSizeBack("c:\\Users\\Phill\\Videos\\Captures");
+        // testReaderFile.testGetSize("C:\\$SysReset");
     }
 
     public static String getMyText() {
