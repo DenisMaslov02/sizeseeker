@@ -1,9 +1,7 @@
 package tokyslav;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import tokyslav.filereader.filereader;
+import tokyslav.gui.GUI;
 
 /**
  * Hello world!
@@ -14,28 +12,21 @@ public class SizeSeeker {
     private static final String myText = "HelloText";
 
     public static void main(String[] args) {
-        System.out.println(myText);
-        createMyWindow();
+        // System.out.println(myText);
+        // filereader.getParent("C:\\");
+        for (Fileobject x : filereader.getInfoFromPath("C:\\Users\\Phill")) {
+            System.out.println(x.getFileName());
+            System.out.println(x.getSize());
+            System.out.println(x.getFileType());
+        }
+        new GUI();
+        // filereader.findFileType(C:\\Users\\Phill);
+        // filereader.sendFileSizeBack("c:\\Users\\Phill\\Videos\\Captures");
+        // testReaderFile.testGetSize("C:\\$SysReset");
     }
 
     public static String getMyText() {
         return myText;
-    }
-
-    private static void createMyWindow() {
-        JFrame frame = new JFrame("JFrame Example");
-        JPanel panel = new JPanel();
-        //panel.setLayout(new GridLayout());
-        JLabel label = new JLabel("JFrame By Example");
-        JButton button = new JButton();
-        button.setText("Button");
-        panel.add(label);
-        panel.add(button);
-        frame.add(panel);
-        frame.setSize(200, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
     }
 
 }
