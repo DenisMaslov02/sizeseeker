@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
-import tokyslav.filereader.filereader;
 
 public class GUI {
 
@@ -132,6 +131,7 @@ public class GUI {
         southPanel.setSize(width, 100);
         southPanel.setBackground(Color.GREEN);
         frame.add(southPanel,BorderLayout.SOUTH);
+        return southPanel;
     }
 
 }

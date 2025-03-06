@@ -151,16 +151,8 @@ public class filereader {
         File[] roots = File.listRoots();
         return roots;
     }
-}
-// Windows: C:\Dev\SizeSeeker_old\src\META-INF
-// Mac/Linx: /Dev/SizeSeeker_old/src/
-   
-    public filereader(){
-        //constructor of class
-
-        
-    }
-
+//######################## Das war eine Methode von mir um Anzeige zu testen, no worries ##########################
+/*
     public static Fileobject[] getInfoFromPath(String p_pathToSearch){
         List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
 
@@ -184,7 +176,7 @@ public class filereader {
 
         return fileobjectlist.toArray(new Fileobject[0]);
     }
-
+*/
 }
 
 //Windows: C:\Dev\SizeSeeker_old\src\META-INF
