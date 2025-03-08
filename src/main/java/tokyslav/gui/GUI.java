@@ -24,19 +24,22 @@ public class GUI {
     private JLabel actualPathJLabel;
     private JPanel centerPanel;
 
-    private String actualPath = " ";
+    private String actualPath = "C:\\Users\\ ";
+    private int heightofHeadPanel = 35;
+    private int heightofSouthPanel = 50;
 
     public GUI() {
         // constructor of Gui
         frame = new JFrame("SizeSeeker");
-        frame.setLayout(new BorderLayout());
+        frame.setLayout(new BorderLayout());  
 
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.add(headJPanel(), BorderLayout.NORTH);
-        frame.add(centerJPanel(), BorderLayout.CENTER);
+        centerPanel = centerJPanel();
+        frame.add(centerPanel, BorderLayout.CENTER);
         frame.add(southJPanel(), BorderLayout.SOUTH);
 
         frame.setVisible(true);
@@ -44,29 +47,34 @@ public class GUI {
 
     private JPanel headJPanel() {
         JPanel headPanel = new JPanel();
-        headPanel.setSize(width, 200);
-        Dimension d = new Dimension(width, 30);
+        // headPanel.setSize(width, 200); //funktioniert irgendwie nicht, idk
+        Dimension d = new Dimension(width, heightofHeadPanel);
         headPanel.setPreferredSize(d);
         headPanel.setBackground(Color.white);
         headPanel.setLayout(new BorderLayout());
 
         JButton goBackButton = new JButton();
-        goBackButton.setText("DU HURENSOHN");// Zurück
+        goBackButton.setText("Zurück");// Zurück
         goBackButton.addActionListener(e -> goBackButtonFunction());
         headPanel.add(goBackButton, BorderLayout.LINE_START);
 
-        JLabel actualPathLabel = new JLabel();
-        String textToDisplay = "Du befindest dich hier:" + actualPath;
-        actualPathLabel.setText(textToDisplay);
-        headPanel.add(actualPathLabel, BorderLayout.CENTER);
+        actualPathJLabel = new JLabel();
+        setactualPathJLabelText(actualPath);
+        headPanel.add(actualPathJLabel, BorderLayout.CENTER);
 
         return headPanel;
     }
 
+    // opens parent directory and lists all of the files there
     private void goBackButtonFunction() {
-        // System.out.println("Hello u Son of bitch");
-        // opens parent directory and lists all of the files there
-        System.out.println(frame.WIDTH);
+        // actualPath = filereader.getParent(actualPath);  //aktuell kaputt, Phillip klären
+        // actualPath = " hihi ich ändere den Text hier";
+        setactualPathJLabelText(actualPath);
+        frame.remove(centerPanel);
+        centerPanel = centerJPanel();
+        frame.add(centerPanel, BorderLayout.CENTER);
+        
+        // System.out.println(frame.getHeight());
     }
 
     private JPanel centerJPanel() {
@@ -79,6 +87,7 @@ public class GUI {
         // for (Fileobject i : filereader.getInfoFromPath("hehe")) {
         // centerPanel.add(createFileObjectPanel(i));
         // }
+        System.out.println("ich wurde gerufen: CENTER");
         return centerPanel;
     }
 
@@ -128,10 +137,16 @@ public class GUI {
 
     private JPanel southJPanel() {
         JPanel southPanel = new JPanel();
-        southPanel.setSize(width, 100);
-        southPanel.setBackground(Color.GREEN);
-        frame.add(southPanel,BorderLayout.SOUTH);
+        // southPanel.setSize(width, 100); //funktioniert irgendwie nicht, idk
+        Dimension d = new Dimension(width, heightofSouthPanel);
+        southPanel.setPreferredSize(d);
+        southPanel.setBackground(Color.magenta);
         return southPanel;
+    }
+
+    private void setactualPathJLabelText(String textToSet){
+        String textToDisplay = "Du befindest dich hier: " + textToSet;
+        actualPathJLabel.setText(textToDisplay);
     }
 
 }
