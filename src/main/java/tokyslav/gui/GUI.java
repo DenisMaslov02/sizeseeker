@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
+import tokyslav.filereader.filereader;
 
 public class GUI {
 
@@ -76,7 +79,7 @@ public class GUI {
         
         // System.out.println(frame.getHeight());
     }
-
+    
     private JPanel centerJPanel() {
         JPanel centerPanel = new JPanel();
         centerPanel.setSize(frame.WIDTH, frame.HEIGHT - 100);
@@ -84,9 +87,13 @@ public class GUI {
         centerPanel.setBackground(Color.CYAN);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
 
-        // for (Fileobject i : filereader.getInfoFromPath("hehe")) {
-        // centerPanel.add(createFileObjectPanel(i));
-        // }
+        List<Fileobject> fileobjectsLists = Arrays.asList(filereader.getInfoFromPath(actualPath));
+        Fileobject[] sortedFileobjectArray = GUILogic.sortItems(fileobjectsLists);
+        // filereader.getInfoFromPath(actualPath);
+        
+        for (Fileobject i : filereader.getInfoFromPath("hehe")) {
+            centerPanel.add(createFileObjectPanel(i));
+        }
         System.out.println("ich wurde gerufen: CENTER");
         return centerPanel;
     }
