@@ -27,7 +27,7 @@ public class GUI {
     private JLabel actualPathJLabel;
     private JPanel centerPanel;
 
-    private String actualPath = "C:\\Users\\ ";
+    private String actualPath = "C:\\Users\\";
     private int heightofHeadPanel = 35;
     private int heightofSouthPanel = 50;
 
@@ -92,6 +92,7 @@ public class GUI {
         // centerPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT - 100)));
         centerPanel.setBackground(Color.CYAN);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
+        
 
         List<Fileobject> fileobjectsLists = Arrays.asList(filereader.getInfoFromPath(actualPath));
         // Fileobject[] sortedFileobjectArray = GUILogic.sortItems(fileobjectsLists);
@@ -108,10 +109,8 @@ public class GUI {
         JPanel fileObjectPanel = new JPanel();
         fileObjectPanel.setLayout(new BorderLayout());
         fileObjectPanel.setSize(frame.WIDTH, 50);
-
-        // fileObjectPanel.setPreferredSize(new Dimension(frame.WIDTH, 50));
-
-        ImageIcon icon = new ImageIcon("C:\\Users\\denis\\Desktop\\Dir_Icon.png");
+        fileObjectPanel.setPreferredSize(new Dimension(frame.WIDTH, 50));
+        ImageIcon icon = new ImageIcon(getImagePath(tempFileobject.getFileType()));
         Image img = icon.getImage();
         Image newimg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
@@ -127,16 +126,23 @@ public class GUI {
         JLabel fileSizeLabel = new JLabel(tempFileobject.getSize());
         fileObjectPanel.add(fileSizeLabel, BorderLayout.LINE_END);
 
+        JButton buttonToPress = new JButton();
+        buttonToPress.setOpaque(false);
+        buttonToPress.setContentAreaFilled(false);
+        buttonToPress.setBorderPainted(false);
+
+        buttonToPress.setSize(fileObjectPanel.WIDTH, fileObjectPanel.HEIGHT);
+        fileObjectPanel.add(buttonToPress);
         return fileObjectPanel;
     }
     private String getImagePath(FileTypes type){
         String imgPath;
         switch(type){
             case DIRECTORY:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Dir_Icon.png";
+                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon_New.png";
                 break;
             case FILE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\File_Icon.png";
+                imgPath = "src\\main\\java\\tokyslav\\gui\\File_Icon_New.png";
                 break;
             case DRIVE:
                 imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon.png";
