@@ -12,7 +12,7 @@ public class GUILogic {
         while (!listToSort.isEmpty()){
             int highestSize = 0;
             for (Fileobject elem : listToSort) {
-                
+                // elem.getSize();
             }
     
         }

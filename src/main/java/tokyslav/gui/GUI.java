@@ -72,6 +72,12 @@ public class GUI {
     private void goBackButtonFunction() {
         // actualPath = filereader.getParent(actualPath);  //aktuell kaputt, Phillip klären
         // actualPath = " hihi ich ändere den Text hier";
+        
+        // Fileobject x = new Fileobject("Hallo", "700bytes", FileTypes.FILE);
+        // System.out.println(Integer.parseInt(x.getSize()));
+        
+        
+        //recreate CenterPanel
         setactualPathJLabelText(actualPath);
         frame.remove(centerPanel);
         centerPanel = centerJPanel();
@@ -88,10 +94,10 @@ public class GUI {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
 
         List<Fileobject> fileobjectsLists = Arrays.asList(filereader.getInfoFromPath(actualPath));
-        Fileobject[] sortedFileobjectArray = GUILogic.sortItems(fileobjectsLists);
+        // Fileobject[] sortedFileobjectArray = GUILogic.sortItems(fileobjectsLists);
         // filereader.getInfoFromPath(actualPath);
         
-        for (Fileobject i : filereader.getInfoFromPath("hehe")) {
+        for (Fileobject i : filereader.getInfoFromPath(actualPath)) {
             centerPanel.add(createFileObjectPanel(i));
         }
         System.out.println("ich wurde gerufen: CENTER");
@@ -151,6 +157,7 @@ public class GUI {
         return southPanel;
     }
 
+    //every change of location can be set here
     private void setactualPathJLabelText(String textToSet){
         String textToDisplay = "Du befindest dich hier: " + textToSet;
         actualPathJLabel.setText(textToDisplay);
