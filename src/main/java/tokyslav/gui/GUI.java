@@ -101,7 +101,7 @@ public class GUI {
         for (Fileobject i : filereader.getInfoFromPath(actualPath)) {
             centerPanel.add(createFileObjectPanel(i));
         }
-        System.out.println("ich wurde gerufen: CENTER");
+        // System.out.println("ich wurde gerufen: CENTER");
         return centerPanel;
     }
 
@@ -117,16 +117,8 @@ public class GUI {
         buttonToPress.setBorderPainted(false);
         buttonToPress.setLayout(new BorderLayout());
 
-        ImageIcon icon = new ImageIcon(getImagePath(tempFileobject.getFileType()));
-        Image img = icon.getImage();
-        Image newimg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        icon = new ImageIcon(newimg);
-        JButton cornerButton = new JButton(icon);
-        cornerButton.setSize(20, 20);
-        cornerButton.setBorder(BorderFactory.createEmptyBorder());
-        cornerButton.setContentAreaFilled(false);
-        
-        buttonToPress.add(cornerButton, BorderLayout.LINE_START);
+        JButton iconButton = createIcon(tempFileobject); 
+        buttonToPress.add(iconButton, BorderLayout.LINE_START);
 
         JLabel fileNameLabel = new JLabel(tempFileobject.getFileName());
         buttonToPress.add(fileNameLabel, BorderLayout.CENTER);
@@ -166,7 +158,18 @@ public class GUI {
         centerPanel = centerJPanel();
         frame.add(centerPanel, BorderLayout.CENTER);
     }
-    
+    private JButton createIcon(Fileobject fileobjectForIcon){
+        ImageIcon icon = new ImageIcon(getImagePath(fileobjectForIcon.getFileType()));
+        Image img = icon.getImage();
+        Image newimg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newimg);
+        JButton cornerButton = new JButton(icon);
+        cornerButton.setSize(20, 20);
+        cornerButton.setBorder(BorderFactory.createEmptyBorder());
+        cornerButton.setContentAreaFilled(false);
+        return cornerButton;
+    }
+
     private JPanel southJPanel() {
         JPanel southPanel = new JPanel();
         // southPanel.setSize(width, 100); //funktioniert irgendwie nicht, idk
