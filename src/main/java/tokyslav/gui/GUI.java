@@ -110,6 +110,13 @@ public class GUI {
         fileObjectPanel.setLayout(new BorderLayout());
         fileObjectPanel.setSize(frame.WIDTH, 50);
         fileObjectPanel.setPreferredSize(new Dimension(frame.WIDTH, 50));
+        
+        JButton buttonToPress = new JButton();
+        buttonToPress.setOpaque(false);
+        buttonToPress.setContentAreaFilled(false);
+        buttonToPress.setBorderPainted(false);
+        buttonToPress.setLayout(new BorderLayout());
+
         ImageIcon icon = new ImageIcon(getImagePath(tempFileobject.getFileType()));
         Image img = icon.getImage();
         Image newimg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
@@ -118,19 +125,16 @@ public class GUI {
         cornerButton.setSize(20, 20);
         cornerButton.setBorder(BorderFactory.createEmptyBorder());
         cornerButton.setContentAreaFilled(false);
-        fileObjectPanel.add(cornerButton, BorderLayout.LINE_START);
+        
+        buttonToPress.add(cornerButton, BorderLayout.LINE_START);
 
         JLabel fileNameLabel = new JLabel(tempFileobject.getFileName());
-        fileObjectPanel.add(fileNameLabel, BorderLayout.CENTER);
+        buttonToPress.add(fileNameLabel, BorderLayout.CENTER);
 
         JLabel fileSizeLabel = new JLabel(tempFileobject.getSize());
-        fileObjectPanel.add(fileSizeLabel, BorderLayout.LINE_END);
+        buttonToPress.add(fileSizeLabel, BorderLayout.LINE_END);
 
-        JButton buttonToPress = new JButton();
-        buttonToPress.setOpaque(false);
-        buttonToPress.setContentAreaFilled(false);
-        buttonToPress.setBorderPainted(false);
-
+        buttonToPress.addActionListener(e -> buttonFunctionFileObject(tempFileobject.getFileName()));
         buttonToPress.setSize(fileObjectPanel.WIDTH, fileObjectPanel.HEIGHT);
         fileObjectPanel.add(buttonToPress);
         return fileObjectPanel;
@@ -153,7 +157,16 @@ public class GUI {
             }
         return imgPath;
     }
-
+    private void buttonFunctionFileObject(String newPath){
+        
+        System.out.println(newPath);
+        actualPath = newPath;
+        setactualPathJLabelText(newPath);
+        frame.remove(centerPanel);
+        centerPanel = centerJPanel();
+        frame.add(centerPanel, BorderLayout.CENTER);
+    }
+    
     private JPanel southJPanel() {
         JPanel southPanel = new JPanel();
         // southPanel.setSize(width, 100); //funktioniert irgendwie nicht, idk
