@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -26,7 +24,7 @@ public class GUI {
     private final int height = 800;
     private JFrame frame;
     private JLabel actualPathJLabel;
-    private JScrollPane centerPanel;
+    private JScrollPane centerJPanel;
 
     private String actualPath = "C:\\Users\\";
     private int heightofHeadPanel = 35;
@@ -42,8 +40,8 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.add(headJPanel(), BorderLayout.NORTH);
-        centerPanel = centerJScrollPane();
-        frame.add(centerPanel, BorderLayout.CENTER);
+        centerJPanel = centerJScrollPane();
+        frame.add(centerJPanel, BorderLayout.CENTER);
         frame.add(southJPanel(), BorderLayout.SOUTH);
 
         frame.setVisible(true);
@@ -72,37 +70,25 @@ public class GUI {
     // opens parent directory and lists all of the files there
     private void goBackButtonFunction() {
         // actualPath = filereader.getParent(actualPath);  //aktuell kaputt, Phillip klären
-        // actualPath = " hihi ich ändere den Text hier";
-        
-        // Fileobject x = new Fileobject("Hallo", "700bytes", FileTypes.FILE);
-        // System.out.println(Integer.parseInt(x.getSize()));
-        
-        
-        //recreate CenterPanel
-        setactualPathJLabelText(actualPath);
-        frame.remove(centerPanel);
-        centerPanel = centerJScrollPane();
-        frame.add(centerPanel, BorderLayout.CENTER);
-        
-        // System.out.println(frame.getHeight());
+        recreateCenterJPanel(actualPath);
     }
     
     private JScrollPane centerJScrollPane() {
-        JPanel centerPanel = new JPanel();
-        centerPanel.setSize(frame.WIDTH, frame.HEIGHT - 100);
-        // centerPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT - 100)));
-        centerPanel.setBackground(Color.CYAN);
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
+        JPanel centerJPanel = new JPanel();
+        centerJPanel.setSize(frame.WIDTH, frame.HEIGHT - 100);
+        // centerJPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT - 100)));
+        centerJPanel.setBackground(Color.CYAN);
+        centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
 
-        List<Fileobject> fileobjectsLists = Arrays.asList(filereader.getInfoFromPath(actualPath));
-        // Fileobject[] sortedFileobjectArray = GUILogic.sortItems(fileobjectsLists);
+        Fileobject[] fileobjectArray = filereader.getInfoFromPath(actualPath);
+        int[] percentageOfSize = GUILogic.calculatePercentage(fileobjectArray);
         // filereader.getInfoFromPath(actualPath);
         
-        for (Fileobject i : filereader.getInfoFromPath(actualPath)) {
-            centerPanel.add(createFileObjectPanel(i));
+        for (Fileobject i : fileobjectArray) {
+            centerJPanel.add(createFileObjectPanel(i));
         }
         // System.out.println("ich wurde gerufen: CENTER");
-        JScrollPane scrollpanel = new JScrollPane(centerPanel);
+        JScrollPane scrollpanel = new JScrollPane(centerJPanel);
         return scrollpanel;
     }
 
@@ -127,7 +113,7 @@ public class GUI {
         JLabel fileSizeLabel = new JLabel(tempFileobject.getSize());
         buttonToPress.add(fileSizeLabel, BorderLayout.LINE_END);
 
-        buttonToPress.addActionListener(e -> buttonFunctionFileObject(tempFileobject.getFileName()));
+        buttonToPress.addActionListener(e -> recreateCenterJPanel(tempFileobject.getFileName()));
         buttonToPress.setSize(fileObjectPanel.WIDTH, fileObjectPanel.HEIGHT);
         fileObjectPanel.add(buttonToPress);
         return fileObjectPanel;
@@ -150,15 +136,7 @@ public class GUI {
             }
         return imgPath;
     }
-    private void buttonFunctionFileObject(String newPath){
-        
-        System.out.println(newPath);
-        actualPath = newPath;
-        setactualPathJLabelText(newPath);
-        frame.remove(centerPanel);
-        centerPanel = centerJScrollPane();
-        frame.add(centerPanel, BorderLayout.CENTER);
-    }
+
     private JButton createIcon(Fileobject fileobjectForIcon){
         ImageIcon icon = new ImageIcon(getImagePath(fileobjectForIcon.getFileType()));
         Image img = icon.getImage();
@@ -169,6 +147,13 @@ public class GUI {
         cornerButton.setBorder(BorderFactory.createEmptyBorder());
         cornerButton.setContentAreaFilled(false);
         return cornerButton;
+    }
+    private void recreateCenterJPanel(String newPath){
+        actualPath = newPath;
+        setactualPathJLabelText(newPath);
+        frame.remove(centerJPanel);
+        centerJPanel = centerJScrollPane();
+        frame.add(centerJPanel, BorderLayout.CENTER);
     }
 
     private JPanel southJPanel() {
