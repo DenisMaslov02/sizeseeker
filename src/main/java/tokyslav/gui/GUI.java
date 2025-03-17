@@ -13,14 +13,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tokyslav.FileTypes;
 import tokyslav.Fileobject;
-import tokyslav.filereader.filereader;
 
 public class GUI {
 
     private final int width = 800;
     private final int height = 600;
     private JFrame frame;
+    private JLabel actualPathJLabel;
+    private JPanel centerPanel;
 
     private String actualPath = " ";
 
@@ -70,6 +72,7 @@ public class GUI {
     private JPanel centerJPanel() {
         JPanel centerPanel = new JPanel();
         centerPanel.setSize(frame.WIDTH, frame.HEIGHT - 100);
+        // centerPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT - 100)));
         centerPanel.setBackground(Color.CYAN);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
 
@@ -88,7 +91,7 @@ public class GUI {
 
         ImageIcon icon = new ImageIcon("C:\\Users\\denis\\Desktop\\Dir_Icon.png");
         Image img = icon.getImage();
-        Image newimg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        Image newimg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
         JButton cornerButton = new JButton(icon);
         cornerButton.setSize(20, 20);
@@ -104,11 +107,30 @@ public class GUI {
 
         return fileObjectPanel;
     }
+    private String getImagePath(FileTypes type){
+        String imgPath;
+        switch(type){
+            case DIRECTORY:
+                imgPath = "src\\main\\java\\tokyslav\\gui\\Dir_Icon.png";
+                break;
+            case FILE:
+                imgPath = "src\\main\\java\\tokyslav\\gui\\File_Icon.png";
+                break;
+            case DRIVE:
+                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon.png";
+                break;
+            default:
+                imgPath = "src\\main\\java\\tokyslav\\gui\\Other_Icon.png";
+                break;
+            }
+        return imgPath;
+    }
 
     private JPanel southJPanel() {
         JPanel southPanel = new JPanel();
         southPanel.setSize(width, 100);
         southPanel.setBackground(Color.GREEN);
+        frame.add(southPanel,BorderLayout.SOUTH);
         return southPanel;
     }
 

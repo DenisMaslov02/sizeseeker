@@ -1,14 +1,7 @@
 package tokyslav;
 
-import java.io.IOException;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import tokyslav.gui.GUI;
-
 import tokyslav.filereader.filereader;
+import tokyslav.gui.GUI;
 
 /**
  * Hello world!
@@ -26,7 +19,7 @@ public class SizeSeeker {
             System.out.println(x.getSize());
             System.out.println(x.getFileType());
         }
-        // new GUI();
+        new GUI();
         // filereader.findFileType(C:\\Users\\Phill);
         // filereader.sendFileSizeBack("c:\\Users\\Phill\\Videos\\Captures");
         // testReaderFile.testGetSize("C:\\$SysReset");
