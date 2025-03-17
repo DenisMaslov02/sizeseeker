@@ -14,6 +14,7 @@ public class SizeSeeker {
     public static void main(String[] args) {
         // System.out.println(myText);
         // // filereader.getParent("C:\\");
+        // filereader.getInfoFromPath("C:\\Users\\Phill");
         for (Fileobject x : filereader.getInfoFromPath("C:\\Users\\Phill")) {
             System.out.println(x.getFileName());
             System.out.println(x.getSize());
