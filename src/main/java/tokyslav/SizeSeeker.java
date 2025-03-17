@@ -20,11 +20,11 @@ public class SizeSeeker {
 
     public static void main(String[] args) {
         // System.out.println(myText);
-        // filereader.getParent("C:\\");
+        // // filereader.getParent("C:\\");
         for (Fileobject x : filereader.getInfoFromPath("C:\\Users\\Phill")) {
             System.out.println(x.getFileName());
             System.out.println(x.getSize());
-            System.out.println(x.getFileType();
+            System.out.println(x.getFileType());
         }
         // new GUI();
         // filereader.findFileType(C:\\Users\\Phill);

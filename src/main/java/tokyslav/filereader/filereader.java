@@ -44,7 +44,7 @@ public class filereader {
         List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
         for (File file : getFileList) {
             fileobjectlist.add(new Fileobject(file.getAbsolutePath(),
-                    sendFileSizeBack(file),
+                    sendFileSizeBack(file.toString()),
                     findFileType(file)));
         }
 
@@ -75,40 +75,20 @@ public class filereader {
         return backpath;
     }
 
-    // public static boolean checkroots(String checkPath) {
-    // boolean checkPathBool = false;
-    // File checkPathFile = new File(checkPath);
+    public static String sendFileSizeBack(String infoFromPath) {
 
-    // File[] roots = File.listRoots();
-
-    // for (File file : roots) {
-    // if (file == checkPathFile) {
-    // checkPathBool = true;
-    // return checkPathBool;
-    // }
-    // }
-    // return checkPathBool;
-    // }
-
-    // public static Fileobject[] createFileObjects(String filePath, boolean witch)
-    // {
-
-    // List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-    // if (witch) {
-    // fileobjectlist.add(new Fileobject(filePath,
-    // sendFileSizeBack(new File(filePath)),
-    // FileTypes.DRIVE));
-    // createMethodeFileObjects(filePath);
-    // } else {
-    // createMethodeFileObjects(filePath);
-    // }
-
-    // return fileobjectlist.toArray(new Fileobject[0]);
-    // }
-
-    public static String sendFileSizeBack(File infoFromPath) {
-
-        return infoFromPath.length() + "bytes";
+        File getfileSize = new File(infoFromPath);
+        File[] getFileList = getfileSize.listFiles();
+        int arrayInt = getFileList.length;
+        int fileSize = 0;
+        if (arrayInt == 0) {
+            fileSize += infoFromPath.length();
+        } else {
+            for (int x = 0; x < getFileList.length; x++) {
+                fileSize += getFileList[x].length();
+            }
+        }
+        return fileSize + "bytes";
 
     }
 
