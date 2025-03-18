@@ -3,6 +3,7 @@ package tokyslav.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
@@ -26,7 +27,7 @@ public class GUI {
     private JLabel actualPathJLabel;
     private JScrollPane centerJPanel;
 
-    private String actualPath = "C:\\Users\\";
+    private String actualPath = "C:\\Users";
     private int heightofHeadPanel = 35;
     private int heightofSouthPanel = 50;
 
@@ -75,24 +76,23 @@ public class GUI {
     
     private JScrollPane centerJScrollPane() {
         JPanel centerJPanel = new JPanel();
-        centerJPanel.setSize(frame.WIDTH, frame.HEIGHT - 100);
+        // centerJPanel.setSize(frame.WIDTH, frame.HEIGHT - heightofSouthPanel - heightofHeadPanel);
         // centerJPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT - 100)));
         centerJPanel.setBackground(Color.CYAN);
         centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
 
         Fileobject[] fileobjectArray = filereader.getInfoFromPath(actualPath);
-        int[] percentageOfSize = GUILogic.calculatePercentage(fileobjectArray);
-        // filereader.getInfoFromPath(actualPath);
+        // int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
+        int[] percentageOfSizeIntArray = {0,20,30,50,100,35,75,95};
         
-        for (Fileobject i : fileobjectArray) {
-            centerJPanel.add(createFileObjectPanel(i));
+        for (int i = 0; i < fileobjectArray.length; i++) {
+            centerJPanel.add(createFileObjectPanel(fileobjectArray[i],percentageOfSizeIntArray[i]));
         }
-        // System.out.println("ich wurde gerufen: CENTER");
         JScrollPane scrollpanel = new JScrollPane(centerJPanel);
         return scrollpanel;
     }
 
-    private JPanel createFileObjectPanel(Fileobject tempFileobject) {
+    private JPanel createFileObjectPanel(Fileobject tempFileobject, int percentageOfSize) {
         JPanel fileObjectPanel = new JPanel();
         fileObjectPanel.setLayout(new BorderLayout());
         fileObjectPanel.setSize(frame.WIDTH, 50);
@@ -107,7 +107,8 @@ public class GUI {
         JButton iconButton = createIcon(tempFileobject); 
         buttonToPress.add(iconButton, BorderLayout.LINE_START);
 
-        JLabel fileNameLabel = new JLabel(tempFileobject.getFileName());
+        JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(),percentageOfSize);
+        fileNameLabel.setOpaque(false);
         buttonToPress.add(fileNameLabel, BorderLayout.CENTER);
 
         JLabel fileSizeLabel = new JLabel(tempFileobject.getSize());
@@ -171,4 +172,23 @@ public class GUI {
         actualPathJLabel.setText(textToDisplay);
     }
 
+    private JLabel customJLabel(String textToDisplay, int percentageToFill){
+        JLabel jLabelWithCustomRect = new JLabel(textToDisplay) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                float a = percentageToFill;
+                float b = a/100;
+                float c = b * getWidth();
+                int fillWidth = (int) c;
+                // Farbe für den Hintergrund festlegen (z.B. blau)
+                g.setColor(Color.cyan);
+                // Rechteck füllen (von links beginnend)
+                g.fillRect(0, 0, fillWidth, height);
+        
+                // Den Standard-Look (Text etc.) rendern
+                super.paintComponent(g);
+            }
+        };
+        return jLabelWithCustomRect; 
+    }
 }
