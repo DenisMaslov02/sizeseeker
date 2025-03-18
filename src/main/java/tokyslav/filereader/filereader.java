@@ -10,62 +10,6 @@ import java.util.List;
 
 public class filereader {
 
-    public static Fileobject[] getInfoFromPath(String infoFromString) {
-
-        File infoFromPath = new File(infoFromString);
-
-        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-
-        if (infoFromPath.exists() || infoFromPath.isDirectory()) {
-            System.out.print("Path exists!");
-            fileobjectlist.add(new Fileobject(infoFromString, getInfoFromPath(infoFromPath), null));
-            // fileobjectlist = createMethodeFileObjects(infoFromPath);
-            // if (checkroots(infoFromPath)) {
-            // createFileObjects(infoFromPath, true);
-            // } else {
-            // createFileObjects(infoFromPath, false);
-            // }
-        } else {
-            System.out.println("Path doesn´t exists!");
-        }
-        return fileobjectlist.toArray(new Fileobject[0]);
-    }
-
-    // public static FileObject[] createListOfObject(File HeadFile, List<Fileobject>
-    // fileobjectlist) {
-
-    // File[] nameFilesList = HeadFile.listFiles();
-
-    // fileobjectlist.getFileName().add(HeadFile.toString());
-    // for (int fileListIndex = 0; fileListIndex < nameFilesList.length;
-    // fileListIndex++) {
-    // fileobjectlist.getFileName[fileListIndex] +=
-    // nameFilesList[fileListIndex].toString();
-    // }
-    // return FileObject[];
-    // }
-
-    // public static List<Fileobject> createMethodeFileObjects(String Path) {
-
-    // File getFile = new File(Path);
-    // File[] getFileList = getFile.listFiles();
-
-    // List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-    // for (File file : getFileList) {
-    // fileobjectlist.add(new Fileobject(file.getAbsolutePath(),
-    // sendFileSizeBack(file.toString()),
-    // findFileType(file)));
-    // }
-
-    // return fileobjectlist;
-    // }
-
-    private static int getInfoFromPath(File infoFromPath) {
-        int x = 0;
-
-        return x;
-    }
-
     public static String getParent(String backpath) {
 
         File[] roots = File.listRoots();
@@ -90,35 +34,43 @@ public class filereader {
         return backpath;
     }
 
-    public static String sendFileSizeBack(String infoFromPath) {
+    public static Fileobject[] getInfoFromPath(String infoFromString) {
 
-        File getfileSize = new File(infoFromPath);
-        File[] getFileList = getfileSize.listFiles();
-        int arrayInt = getFileList.length;
-        int fileSize = 0;
-        if (arrayInt == 0) {
-            fileSize += infoFromPath.length();
-        } else {
-            for (int x = 0; x < getFileList.length; x++) {
-                fileSize += getFileList[x].length();
+        File infoFromPath = new File(infoFromString);
+        File[] fileListName = infoFromPath.listFiles();
+
+        List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+
+        if (infoFromPath.exists() || infoFromPath.isDirectory()) {
+            System.out.print("Path exists!");
+            for (int i = 0; i < fileListName.length; i++) {
+                File fileOfSize = fileListName[i];
+                fileobjectlist.add(
+                        new Fileobject(fileListName[i].toString(), getInfoFromPath(fileOfSize),
+                                findFileType(fileListName[i])));
             }
+        } else {
+            System.out.println("Path doesn´t exists!");
         }
-        return fileSize + "bytes";
-
+        return fileobjectlist.toArray(new Fileobject[0]);
     }
 
-    public static long getSize(File file) {
-        long size = 0;
+    private static long getInfoFromPath(File infoFromPath) {
 
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            for (int i = 0; files != null && i < file.length(); i++) {
-                size += getSize(files[i]);
+        long sizeOfFile = 0;
+        if (infoFromPath == null)
+            return sizeOfFile;
+        if (infoFromPath.isDirectory()) {
+            File[] filesDirectory = infoFromPath.listFiles();
+            if (filesDirectory != null) {
+                for (File subfile : filesDirectory) {
+                    sizeOfFile += getInfoFromPath(subfile);
+                }
             }
         } else {
-            size += file.length();
+            sizeOfFile += infoFromPath.length();
         }
-        return size;
+        return sizeOfFile;
     }
 
     public static FileTypes findFileType(File fileTypee) {
@@ -141,33 +93,6 @@ public class filereader {
         File[] roots = File.listRoots();
         return roots;
     }
-    // ######################## Das war eine Methode von mir um Anzeige zu testen,
-    // no worries ##########################
-    /*
-     * public static Fileobject[] getInfoFromPath(String p_pathToSearch){
-     * List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
-     * 
-     * if("1".equals(p_pathToSearch)){
-     * fileobjectlist.add(new Fileobject("C:\\","8326583", FileTypes.DRIVE));
-     * fileobjectlist.add(new Fileobject("D:\\","6542345", FileTypes.DRIVE));
-     * fileobjectlist.add(new Fileobject("E:\\","3949757656", FileTypes.DRIVE));
-     * }
-     * if("2".equals(p_pathToSearch)){
-     * fileobjectlist.add(new Fileobject("Dir_1","28", FileTypes.DIRECTORY));
-     * fileobjectlist.add(new Fileobject("Dir_2","45", FileTypes.DIRECTORY));
-     * fileobjectlist.add(new Fileobject("config.xml","64", FileTypes.OTHER));
-     * fileobjectlist.add(new Fileobject("MeinText.txt","3434", FileTypes.FILE));
-     * }
-     * if("3".equals(p_pathToSearch)){
-     * fileobjectlist.add(new Fileobject("Dir_1","64792", FileTypes.DIRECTORY));
-     * fileobjectlist.add(new Fileobject("MeinText.txt","5", FileTypes.FILE));
-     * fileobjectlist.add(new Fileobject("MeinText2.txt","6482", FileTypes.FILE));
-     * fileobjectlist.add(new Fileobject("Bachelor.txt","1", FileTypes.FILE));
-     * }
-     * 
-     * return fileobjectlist.toArray(new Fileobject[0]);
-     * }
-     */
 }
 
 // Windows: C:\Dev\SizeSeeker_old\src\META-INF
