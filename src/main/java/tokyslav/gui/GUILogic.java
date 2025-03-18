@@ -13,11 +13,10 @@ public class GUILogic {
         List<Integer> listOfPercentages = new ArrayList<>();
         
         for (Fileobject i : listToSort) {
+            // ich muss hier einfach alle Größen Addieren um Phillips Idee umzusetzten
             // int actualNumber = i.getSize();
             int actualNumber = 10000;
-            if(highestSize < actualNumber){
-                highestSize = actualNumber;
-            }
+            highestSize += actualNumber;
         }
 
         for (Fileobject i : listToSort) {
