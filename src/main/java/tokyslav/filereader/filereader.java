@@ -34,6 +34,18 @@ public class filereader {
         return backpath;
     }
 
+    // public static String getNameOfPath(String Path) {
+
+    // File file = new File(Path);
+    // File[] fileListName = file.listFiles();
+
+    // List<String> pathNames = new ArrayList<String>();
+    // for (int i = 0; i < fileListName.length; i++) {
+    // System.out.println(fileListName[i].lastModified());
+    // }
+    // return Path;
+    // }
+
     public static Fileobject[] getInfoFromPath(String infoFromString) {
 
         File infoFromPath = new File(infoFromString);
