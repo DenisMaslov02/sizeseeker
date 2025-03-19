@@ -3,10 +3,10 @@ package tokyslav;
 public class Fileobject {
 
     private String filename;
-    private String size;
+    private long size;
     private FileTypes filetype;
 
-    public Fileobject(String p_filename, String p_size, FileTypes p_filetype) {
+    public Fileobject(String p_filename, long p_size, FileTypes p_filetype) {
         filename = p_filename;
         size = p_size;
         filetype = p_filetype;
@@ -16,7 +16,7 @@ public class Fileobject {
         return filename;
     }
 
-    public String getSize() {
+    public long getSize() {
         return size;
     }
 
