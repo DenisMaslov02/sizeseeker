@@ -27,7 +27,7 @@ public class GUI {
     private JLabel actualPathJLabel;
     private JScrollPane centerJPanel;
 
-    private String actualPath = "C:\\Users";
+    private String actualPath = "C:\\Users\\Public";
     private int heightofHeadPanel = 35;
     private int heightofSouthPanel = 50;
 
@@ -82,8 +82,8 @@ public class GUI {
         centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
 
         Fileobject[] fileobjectArray = filereader.getInfoFromPath(actualPath);
-        // int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
-        int[] percentageOfSizeIntArray = {0,20,30,50,100,35,75,95};
+        int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
+        // int[] percentageOfSizeIntArray = {0,20,30,50,100,35,75,95};
         
         for (int i = 0; i < fileobjectArray.length; i++) {
             centerJPanel.add(createFileObjectPanel(fileobjectArray[i],percentageOfSizeIntArray[i]));
@@ -111,7 +111,10 @@ public class GUI {
         fileNameLabel.setOpaque(false);
         buttonToPress.add(fileNameLabel, BorderLayout.CENTER);
 
-        JLabel fileSizeLabel = new JLabel(tempFileobject.getSize());
+        long fileSize = tempFileobject.getSize();
+        // String fileSizeInString = Long.toString(fileSize);
+        String fileSizeToDisplay = GUILogic.calculateSizeDisplayNumber(fileSize);
+        JLabel fileSizeLabel = new JLabel(fileSizeToDisplay);
         buttonToPress.add(fileSizeLabel, BorderLayout.LINE_END);
 
         buttonToPress.addActionListener(e -> recreateCenterJPanel(tempFileobject.getFileName()));
@@ -137,6 +140,7 @@ public class GUI {
             }
         return imgPath;
     }
+   
 
     private JButton createIcon(Fileobject fileobjectForIcon){
         ImageIcon icon = new ImageIcon(getImagePath(fileobjectForIcon.getFileType()));
@@ -191,4 +195,11 @@ public class GUI {
         };
         return jLabelWithCustomRect; 
     }
+
+    // public static void main(String[] args) {
+        // calculateSizeDisplayNumber(1023999000);
+    // }
+
 }
+
+

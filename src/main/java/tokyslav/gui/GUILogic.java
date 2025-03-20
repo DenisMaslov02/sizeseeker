@@ -1,5 +1,6 @@
 package tokyslav.gui;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,8 @@ public class GUILogic {
         
         for (Fileobject i : listToSort) {
             // ich muss hier einfach alle Größen Addieren um Phillips Idee umzusetzten
-            // int actualNumber = i.getSize();
-            int actualNumber = 10000;
+            long actualNumber = i.getSize();
+            // int actualNumber = 10000;
             highestSize += actualNumber;
         }
 
@@ -37,4 +38,28 @@ public class GUILogic {
         int b = a/maxNumber;
         return b;
     }
+
+    public static String calculateSizeDisplayNumber(long fileSizeToCalculate){
+        float size = fileSizeToCalculate / 1024;
+        String textToAdd = "KB";
+        
+        // System.out.println();
+        if(isFourDigitsNumber(size)){
+            textToAdd = "MB";
+            size = size / 1024;
+        }
+        if(isFourDigitsNumber(size)){
+            textToAdd = "GB";
+            size = size / 1024;
+        }
+        DecimalFormat df = new DecimalFormat("0.00");
+        String textToDisplay = df.format(size) + textToAdd;
+        return textToDisplay;
+    }
+    private static boolean isFourDigitsNumber(float numberToCheck){
+        int wholeNumber = (int) Math.abs(numberToCheck); // Vorkommastellen extrahieren
+        int amountOfDigits = (int) Math.log10(wholeNumber) + 1;
+        return amountOfDigits >= 4;
+    }
+
 }
