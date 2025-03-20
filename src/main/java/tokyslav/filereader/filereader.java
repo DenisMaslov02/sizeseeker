@@ -1,12 +1,12 @@
 package tokyslav.filereader;
 
-import tokyslav.FileTypes;
-import tokyslav.Fileobject;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import tokyslav.FileTypes;
+import tokyslav.Fileobject;
 
 public class filereader {
 
@@ -57,9 +57,12 @@ public class filereader {
             System.out.print("Path exists!");
             for (int i = 0; i < fileListName.length; i++) {
                 File fileOfSize = fileListName[i];
-                fileobjectlist.add(
-                        new Fileobject(fileListName[i].toString(), getInfoFromPath(fileOfSize),
-                                findFileType(fileListName[i])));
+                String filepath = fileListName[i].toString();
+                long sizeOfPath = getSizeFromPath(fileOfSize);
+                FileTypes typeOfPath = findFileType(fileListName[i]);
+
+                Fileobject singleFileObject = new Fileobject(filepath,sizeOfPath,typeOfPath);
+                fileobjectlist.add(singleFileObject);
             }
         } else {
             System.out.println("Path doesn´t exists!");
@@ -67,8 +70,9 @@ public class filereader {
         return fileobjectlist.toArray(new Fileobject[0]);
     }
 
-    private static long getInfoFromPath(File infoFromPath) {
+    private static long getSizeFromPath(File infoFromPath) {
 
+        System.out.println(infoFromPath);
         long sizeOfFile = 0;
         if (infoFromPath == null)
             return sizeOfFile;
@@ -76,7 +80,7 @@ public class filereader {
             File[] filesDirectory = infoFromPath.listFiles();
             if (filesDirectory != null) {
                 for (File subfile : filesDirectory) {
-                    sizeOfFile += getInfoFromPath(subfile);
+                    sizeOfFile += getSizeFromPath(subfile);
                 }
             }
         } else {

@@ -1,6 +1,5 @@
 package tokyslav;
 
-import tokyslav.filereader.filereader;
 import tokyslav.gui.GUI;
 
 /**
@@ -16,11 +15,12 @@ public class SizeSeeker {
         // // filereader.getParent("C:\\");
         // filereader.getNameOfPath("C:\\Users\\Public");
         // filereader.getInfoFromPath("C:\\Users\\Phill");
-        for (Fileobject x : filereader.getInfoFromPath("C:\\Users\\Public")) {
-            System.out.println(x.getFileName());
-            System.out.println(x.getSize());
-            System.out.println(x.getFileType());
-        }
+
+        // for (Fileobject x : filereader.getInfoFromPath("C:\\Users")) {
+            // System.out.println(x.getFileName());
+            // System.out.println(x.getSize());
+            // System.out.println(x.getFileType());
+        // }
         new GUI();
         // filereader.findFileType(C:\\Users\\Phill);
         // filereader.sendFileSizeBack("c:\\Users\\Phill\\Videos\\Captures");
