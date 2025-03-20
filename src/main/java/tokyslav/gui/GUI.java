@@ -70,7 +70,7 @@ public class GUI {
 
     // opens parent directory and lists all of the files there
     private void goBackButtonFunction() {
-        // actualPath = filereader.getParent(actualPath);  //aktuell kaputt, Phillip klären
+        actualPath = filereader.getParent(actualPath); 
         recreateCenterJPanel(actualPath);
     }
     
@@ -83,7 +83,7 @@ public class GUI {
 
         Fileobject[] fileobjectArray = filereader.getInfoFromPath(actualPath);
         int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
-        // int[] percentageOfSizeIntArray = {0,20,30,50,100,35,75,95};
+        // int[] percentageOfSizeIntArray = {0,20,30,50,100,35,75,95,45,20,10,65};
         
         for (int i = 0; i < fileobjectArray.length; i++) {
             centerJPanel.add(createFileObjectPanel(fileobjectArray[i],percentageOfSizeIntArray[i]));
