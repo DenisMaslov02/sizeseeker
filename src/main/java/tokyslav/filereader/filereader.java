@@ -7,6 +7,7 @@ import java.util.List;
 
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
+import tokyslav.Stringobject;
 
 public class filereader {
 
@@ -34,17 +35,22 @@ public class filereader {
         return backpath;
     }
 
-    // public static String getNameOfPath(String Path) {
+    public static Stringobject[] getNameOfPath(String Path) {
 
-    // File file = new File(Path);
-    // File[] fileListName = file.listFiles();
+        File file = new File(Path);
+        File[] fileListName = file.listFiles();
 
-    // List<String> pathNames = new ArrayList<String>();
-    // for (int i = 0; i < fileListName.length; i++) {
-    // System.out.println(fileListName[i].lastModified());
-    // }
-    // return Path;
-    // }
+        List<Stringobject> stringobjectList = new ArrayList<Stringobject>();
+        for (int i = 0; i < fileListName.length; i++) {
+            Path pathList = fileListName[i].toPath();
+            Path pathLast = pathList.getName(pathList.getNameCount() - 1);
+            String pathName = pathLast.toString();
+
+            Stringobject singelStringobject = new Stringobject(pathName);
+            stringobjectList.add(singelStringobject);
+        }
+        return stringobjectList.toArray(new Stringobject[0]);
+    }
 
     public static Fileobject[] getInfoFromPath(String infoFromString) {
 
@@ -61,7 +67,7 @@ public class filereader {
                 long sizeOfPath = getSizeFromPath(fileOfSize);
                 FileTypes typeOfPath = findFileType(fileListName[i]);
 
-                Fileobject singleFileObject = new Fileobject(filepath,sizeOfPath,typeOfPath);
+                Fileobject singleFileObject = new Fileobject(filepath, sizeOfPath, typeOfPath);
                 fileobjectlist.add(singleFileObject);
             }
         } else {
