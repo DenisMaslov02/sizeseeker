@@ -27,7 +27,7 @@ public class GUI {
     private JLabel actualPathJLabel;
     private JScrollPane centerJPanel;
 
-    private String actualPath = "C:\\Users\\Public";
+    private String actualPath = "C:\\Users\\denis\\Desktop";
     private int heightofHeadPanel = 35;
     private int heightofSouthPanel = 50;
 
@@ -187,13 +187,13 @@ public class GUI {
                 // Farbe für den Hintergrund festlegen (z.B. blau)
                 g.setColor(Color.cyan);
                 // Rechteck füllen (von links beginnend)
-                g.fillRect(0, 0, fillWidth, height);
-        
+                g.fillRect(getWidth() - fillWidth , 0, fillWidth, height);
+                
                 // Den Standard-Look (Text etc.) rendern
                 super.paintComponent(g);
             }
         };
-        return jLabelWithCustomRect; 
+        return jLabelWithCustomRect;
     }
 
     // public static void main(String[] args) {
