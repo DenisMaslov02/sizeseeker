@@ -8,8 +8,25 @@ import java.util.List;
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
 import tokyslav.Stringobject;
+import tokyslav.multithread.myThread;
 
 public class filereader {
+
+    public static void main(String[] args) {
+        // for (int i = 0; i <= 3; i++) {
+        // myThread newThread = new myThread(i);
+        // Thread myThread = new Thread(newThread);
+        // myThread.start();
+        // }
+        File file = new File("C:\\Users\\Phill");
+        File[] fileList = file.listFiles();
+        for (int i = 0; i < fileList.length; i++) {
+            System.out.println(fileList[i]);
+            System.out.println(i);
+        }
+        System.out.println(fileList.length);
+
+    }
 
     public static String getParent(String backpath) {
 
@@ -78,12 +95,23 @@ public class filereader {
 
     private static long getSizeFromPath(File infoFromPath) {
 
-        System.out.println(infoFromPath);
         long sizeOfFile = 0;
         if (infoFromPath == null)
             return sizeOfFile;
         if (infoFromPath.isDirectory()) {
             File[] filesDirectory = infoFromPath.listFiles();
+
+            if (filesDirectory != null) {
+                int n = filesDirectory.length;
+                for (int i = 0; i < n / 5; i++) {
+                    Runnable task1 = () -> getSizeFromPath(filesDirectory[i]);
+                    Runnable task2 = () -> getSizeFromPath(filesDirectory[i + 1]);
+                    Runnable task3 = () -> getSizeFromPath(filesDirectory[i + 2]);
+                    Runnable task4 = () -> getSizeFromPath(filesDirectory[i + 3]);
+                    Runnable task5 = () -> getSizeFromPath(filesDirectory[i + 4]);
+                }
+            }
+
             if (filesDirectory != null) {
                 for (File subfile : filesDirectory) {
                     sizeOfFile += getSizeFromPath(subfile);
@@ -116,19 +144,3 @@ public class filereader {
         return roots;
     }
 }
-
-// Windows: C:\Dev\SizeSeeker_old\src\META-INF
-// Mac/Linx: /Dev/SizeSeeker_old/src/
-
-/*
- * Implementiere in dieser KLasse die Funktionalität aus einem gegebenen
- * Pfad(Windows) alle
- * darunter liegenden Ordner/Dateien zu lesen und dessen Größe herauszufinden
- * 
- */
-
-// TODO exists() für search folder/data
-
-// SystemDATA: 1,6,8,9,10,11,14,16,21,23,24
-
-// 16 ist das Gleiche wie 18
