@@ -1,5 +1,6 @@
 package tokyslav.gui;
 
+import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,4 +59,17 @@ public class GUILogic {
         return amountOfDigits >= 4;
     }
 
+    public static Color evaluateColor(int percentageOfSize){
+        Color returnColor = null;
+        if(percentageOfSize <= 10){
+            returnColor = Color.green;
+        }
+        if(percentageOfSize > 10){
+            returnColor = Color.cyan;
+        }
+        if(percentageOfSize >= 80){
+            returnColor = Color.red;
+        }
+        return returnColor;
+    }
 }
