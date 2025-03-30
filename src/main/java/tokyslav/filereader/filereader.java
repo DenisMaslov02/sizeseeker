@@ -7,7 +7,6 @@ import java.util.List;
 
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
-import tokyslav.Stringobject;
 
 public class filereader {
 
@@ -66,7 +65,6 @@ public class filereader {
 
     private static long getSizeFromPath(File infoFromPath) {
 
-        System.out.println(infoFromPath);
         long sizeOfFile = 0;
         if (infoFromPath == null)
             return sizeOfFile;
