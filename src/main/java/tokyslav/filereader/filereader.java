@@ -21,10 +21,8 @@ public class filereader {
 
             if (backpath != roots[rootsIndex].toString()) {
                 foundRoots = false;
-                System.out.println("You can go Back!");
             } else {
                 foundRoots = true;
-                System.out.println("You can not go Back!");
             }
         }
         if (foundRoots == false) {
@@ -35,21 +33,14 @@ public class filereader {
         return backpath;
     }
 
-    public static Stringobject[] getNameOfPath(String Path) {
+    public static String getNameOfPath(String Path) {
 
         File file = new File(Path);
-        File[] fileListName = file.listFiles();
+        Path pathList = file.toPath();
+        Path pathLast = pathList.getName(pathList.getNameCount() - 1);
+        String pathName = pathLast.toString();
 
-        List<Stringobject> stringobjectList = new ArrayList<Stringobject>();
-        for (int i = 0; i < fileListName.length; i++) {
-            Path pathList = fileListName[i].toPath();
-            Path pathLast = pathList.getName(pathList.getNameCount() - 1);
-            String pathName = pathLast.toString();
-
-            Stringobject singelStringobject = new Stringobject(pathName);
-            stringobjectList.add(singelStringobject);
-        }
-        return stringobjectList.toArray(new Stringobject[0]);
+        return pathName;
     }
 
     public static Fileobject[] getInfoFromPath(String infoFromString) {
@@ -60,7 +51,6 @@ public class filereader {
         List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
 
         if (infoFromPath.exists() || infoFromPath.isDirectory()) {
-            System.out.print("Path exists!");
             for (int i = 0; i < fileListName.length; i++) {
                 File fileOfSize = fileListName[i];
                 String filepath = fileListName[i].toString();
@@ -70,8 +60,6 @@ public class filereader {
                 Fileobject singleFileObject = new Fileobject(filepath, sizeOfPath, typeOfPath);
                 fileobjectlist.add(singleFileObject);
             }
-        } else {
-            System.out.println("Path doesn´t exists!");
         }
         return fileobjectlist.toArray(new Fileobject[0]);
     }
