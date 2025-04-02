@@ -7,8 +7,6 @@ import java.util.List;
 
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
-import tokyslav.Stringobject;
-import tokyslav.multithread.myThread;
 
 public class filereader {
 
@@ -64,49 +62,63 @@ public class filereader {
 
         File infoFromPath = new File(infoFromString);
         File[] fileListName = infoFromPath.listFiles();
+        infoFromPath.list();
 
         List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+        List<myThread> myThreadList = new ArrayList<myThread>();
+        List<Thread> threadList = new ArrayList<Thread>();
 
         if (infoFromPath.exists() || infoFromPath.isDirectory()) {
             for (int i = 0; i < fileListName.length; i++) {
-                File fileOfSize = fileListName[i];
-                String filepath = fileListName[i].toString();
-                long sizeOfPath = getSizeFromPath(fileOfSize);
-                FileTypes typeOfPath = findFileType(fileListName[i]);
-
-                Fileobject singleFileObject = new Fileobject(filepath, sizeOfPath, typeOfPath);
-                fileobjectlist.add(singleFileObject);
+                myThread oneTask = new myThread(fileListName[i]);
+                myThreadList.add(oneTask);
+                Thread oneThread = new Thread(oneTask);
+                oneThread.start();
+                threadList.add(oneThread);
             }
         }
+        boolean isStillChecking = true;
+        while (isStillChecking) {
+            boolean stillrunning = false;
+            for (Thread t : threadList) {
+                if (t.isAlive()) {
+                    stillrunning = true;
+                }
+            }
+            if (!stillrunning) {
+                isStillChecking = false;
+            }
+        }
+        for (myThread oneTask : myThreadList) {
+            fileobjectlist.add(oneTask.getFileobject());
+        }
+        // checken das alle Tasks fertig sind und hinzufügen
         return fileobjectlist.toArray(new Fileobject[0]);
     }
 
+    static Fileobject createsingleFileObject(File singleFile) {
+        String filepath = singleFile.toString();
+        long sizeOfPath = getSizeFromPath(singleFile);
+        FileTypes typeOfPath = findFileType(singleFile);
+        return new Fileobject(filepath, sizeOfPath, typeOfPath);
+    }
+
     private static long getSizeFromPath(File infoFromPath) {
-
         long sizeOfFile = 0;
-        if (infoFromPath == null)
+        if (infoFromPath == null) {
             return sizeOfFile;
-        if (infoFromPath.isDirectory()) {
-            File[] filesDirectory = infoFromPath.listFiles();
-
-            if (filesDirectory != null) {
-                int n = filesDirectory.length;
-                for (int i = 0; i < n / 5; i++) {
-                    Runnable task1 = () -> getSizeFromPath(filesDirectory[i]);
-                    Runnable task2 = () -> getSizeFromPath(filesDirectory[i + 1]);
-                    Runnable task3 = () -> getSizeFromPath(filesDirectory[i + 2]);
-                    Runnable task4 = () -> getSizeFromPath(filesDirectory[i + 3]);
-                    Runnable task5 = () -> getSizeFromPath(filesDirectory[i + 4]);
-                }
-            }
-
-            if (filesDirectory != null) {
-                for (File subfile : filesDirectory) {
-                    sizeOfFile += getSizeFromPath(subfile);
-                }
-            }
-        } else {
+        }
+        // if it's a file
+        if (!infoFromPath.isDirectory()) {
             sizeOfFile += infoFromPath.length();
+        } else {
+            File[] filesDirectory = infoFromPath.listFiles();
+            if (filesDirectory == null) {
+                return sizeOfFile;
+            }
+            for (File subfile : filesDirectory) {
+                sizeOfFile += getSizeFromPath(subfile);
+            }
         }
         return sizeOfFile;
     }

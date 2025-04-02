@@ -1,22 +1,24 @@
-package tokyslav.multithread;
+package tokyslav.filereader;
+
+import java.io.File;
+
+import tokyslav.Fileobject;
 
 public class myThread implements Runnable {
-    private int threadNumber;
+    private Fileobject aFileObject;
+    private File fileToCheck;
 
-    public myThread(int threadNumber) {
-        this.threadNumber = threadNumber;
+    public myThread(File p_fileToCheck) {
+        fileToCheck = p_fileToCheck;
     }
 
     @Override
     public void run() {
-        for (int i = 1; i <= 5; i++) {
-            System.out.println(i + "from thread" + threadNumber);
-            try {
-                Thread.sleep((1000));
-            } catch (InterruptedException e) {
+        aFileObject = filereader.createsingleFileObject(fileToCheck);
+    }
 
-            }
-        }
+    public Fileobject getFileobject() {
+        return aFileObject;
     }
 }
 

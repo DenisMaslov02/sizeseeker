@@ -27,14 +27,14 @@ public class GUI {
     private JLabel actualPathJLabel;
     private JScrollPane centerJPanel;
 
-    private String actualPath = "C:\\Users\\Public";
+    private String actualPath = "C:\\";
     private int heightofHeadPanel = 35;
     private int heightofSouthPanel = 50;
 
     public GUI() {
         // constructor of Gui
         frame = new JFrame("SizeSeeker");
-        frame.setLayout(new BorderLayout());  
+        frame.setLayout(new BorderLayout());
 
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
@@ -70,22 +70,26 @@ public class GUI {
 
     // opens parent directory and lists all of the files there
     private void goBackButtonFunction() {
-        actualPath = filereader.getParent(actualPath); 
+        actualPath = filereader.getParent(actualPath);
         recreateCenterJPanel(actualPath);
     }
-    
+
     private JScrollPane centerJScrollPane() {
         JPanel centerJPanel = new JPanel();
-        // centerJPanel.setSize(frame.WIDTH, frame.HEIGHT - heightofSouthPanel - heightofHeadPanel);
-        // centerJPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT - 100)));
+        // centerJPanel.setSize(frame.WIDTH, frame.HEIGHT - heightofSouthPanel -
+        // heightofHeadPanel);
+        // centerJPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT -
+        // 100)));
         centerJPanel.setBackground(Color.CYAN);
         centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
 
         Fileobject[] fileobjectArray = filereader.getInfoFromPath(actualPath);
+        System.out.println(fileobjectArray.length);
+        System.out.println("Gui is being created");
         int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
-        
+
         for (int i = 0; i < fileobjectArray.length; i++) {
-            centerJPanel.add(createFileObjectPanel(fileobjectArray[i],percentageOfSizeIntArray[i]));
+            centerJPanel.add(createFileObjectPanel(fileobjectArray[i], percentageOfSizeIntArray[i]));
         }
         JScrollPane scrollpanel = new JScrollPane(centerJPanel);
         return scrollpanel;
@@ -96,17 +100,17 @@ public class GUI {
         fileObjectPanel.setLayout(new BorderLayout());
         fileObjectPanel.setSize(frame.WIDTH, 50);
         fileObjectPanel.setPreferredSize(new Dimension(frame.WIDTH, 50));
-        
+
         JButton buttonToPress = new JButton();
         buttonToPress.setOpaque(false);
         buttonToPress.setContentAreaFilled(false);
         buttonToPress.setBorderPainted(false);
         buttonToPress.setLayout(new BorderLayout());
 
-        JButton iconButton = createIcon(tempFileobject); 
+        JButton iconButton = createIcon(tempFileobject);
         buttonToPress.add(iconButton, BorderLayout.LINE_START);
 
-        JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(),percentageOfSize);
+        JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(), percentageOfSize);
         fileNameLabel.setOpaque(false);
         buttonToPress.add(fileNameLabel, BorderLayout.CENTER);
 
@@ -120,9 +124,10 @@ public class GUI {
         fileObjectPanel.add(buttonToPress);
         return fileObjectPanel;
     }
-    private String getImagePath(FileTypes type){
+
+    private String getImagePath(FileTypes type) {
         String imgPath;
-        switch(type){
+        switch (type) {
             case DIRECTORY:
                 imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon_New.png";
                 break;
@@ -135,11 +140,11 @@ public class GUI {
             default:
                 imgPath = "src\\main\\java\\tokyslav\\gui\\Other_Icon.png";
                 break;
-            }
+        }
         return imgPath;
     }
 
-    private JButton createIcon(Fileobject fileobjectForIcon){
+    private JButton createIcon(Fileobject fileobjectForIcon) {
         ImageIcon icon = new ImageIcon(getImagePath(fileobjectForIcon.getFileType()));
         Image img = icon.getImage();
         Image newimg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
@@ -150,8 +155,8 @@ public class GUI {
         cornerButton.setContentAreaFilled(false);
         return cornerButton;
     }
-    
-    private void recreateCenterJPanel(String newPath){
+
+    private void recreateCenterJPanel(String newPath) {
         actualPath = newPath;
         setactualPathJLabelText(newPath);
         frame.remove(centerJPanel);
@@ -168,25 +173,25 @@ public class GUI {
         return southPanel;
     }
 
-    //every change of location can be set here
-    private void setactualPathJLabelText(String textToSet){
+    // every change of location can be set here
+    private void setactualPathJLabelText(String textToSet) {
         String textToDisplay = "Du befindest dich hier: " + textToSet;
         actualPathJLabel.setText(textToDisplay);
     }
 
-    private JLabel customJLabel(String textToDisplay, int percentageToFill){
+    private JLabel customJLabel(String textToDisplay, int percentageToFill) {
         JLabel jLabelWithCustomRect = new JLabel(textToDisplay) {
             @Override
             protected void paintComponent(Graphics g) {
                 float a = percentageToFill;
-                float b = a/100;
+                float b = a / 100;
                 float c = b * getWidth();
                 int fillWidth = (int) c;
                 // Farbe für den Hintergrund festlegen (z.B. blau)
                 g.setColor(GUILogic.evaluateColor(percentageToFill));
                 // Rechteck füllen (von links beginnend)
-                g.fillRect(getWidth() - fillWidth , 0, fillWidth, height);
-                
+                g.fillRect(getWidth() - fillWidth, 0, fillWidth, height);
+
                 // Den Standard-Look (Text etc.) rendern
                 super.paintComponent(g);
             }
@@ -194,5 +199,3 @@ public class GUI {
         return jLabelWithCustomRect;
     }
 }
-
-
