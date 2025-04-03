@@ -87,8 +87,6 @@ public class GUI {
         centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
 
         Fileobject[] fileobjectArray = filereader.getInfoFromPath(actualPath);
-        System.out.println(fileobjectArray.length);
-        System.out.println("Gui is being created");
         int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
 
         for (int i = 0; i < fileobjectArray.length; i++) {
