@@ -111,10 +111,7 @@ public class GUI {
         buttonToPress.setLayout(new BorderLayout());
 
         JButton iconButton = createIcon(tempFileobject);
-<<<<<<< HEAD
         iconButton.addActionListener(e -> openFileExplorer(tempFileobject.getFileName())); 
-=======
->>>>>>> origin/filereader_Development
         buttonToPress.add(iconButton, BorderLayout.LINE_START);
 
         JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(), percentageOfSize);
