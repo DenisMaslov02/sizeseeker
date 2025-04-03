@@ -2,9 +2,12 @@ package tokyslav.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -103,7 +106,8 @@ public class GUI {
         buttonToPress.setBorderPainted(false);
         buttonToPress.setLayout(new BorderLayout());
 
-        JButton iconButton = createIcon(tempFileobject); 
+        JButton iconButton = createIcon(tempFileobject);
+        iconButton.addActionListener(e -> openFileExplorer(tempFileobject.getFileName())); 
         buttonToPress.add(iconButton, BorderLayout.LINE_START);
 
         JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(),percentageOfSize);
@@ -192,6 +196,15 @@ public class GUI {
             }
         };
         return jLabelWithCustomRect;
+    }
+
+    private void openFileExplorer(String pathToOpen){
+        File file = new File (pathToOpen);
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            desktop.open(file);
+        } catch (IOException ex) {
+        }
     }
 }
 
