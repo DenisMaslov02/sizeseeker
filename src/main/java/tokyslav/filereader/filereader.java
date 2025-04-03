@@ -7,9 +7,24 @@ import java.util.List;
 
 import tokyslav.FileTypes;
 import tokyslav.Fileobject;
-import tokyslav.Stringobject;
 
 public class filereader {
+
+    public static void main(String[] args) {
+        // for (int i = 0; i <= 3; i++) {
+        // myThread newThread = new myThread(i);
+        // Thread myThread = new Thread(newThread);
+        // myThread.start();
+        // }
+        File file = new File("C:\\Users\\Phill");
+        File[] fileList = file.listFiles();
+        for (int i = 0; i < fileList.length; i++) {
+            System.out.println(fileList[i]);
+            System.out.println(i);
+        }
+        System.out.println(fileList.length);
+
+    }
 
     public static String getParent(String backpath) {
 
@@ -21,10 +36,8 @@ public class filereader {
 
             if (backpath != roots[rootsIndex].toString()) {
                 foundRoots = false;
-                System.out.println("You can go Back!");
             } else {
                 foundRoots = true;
-                System.out.println("You can not go Back!");
             }
         }
         if (foundRoots == false) {
@@ -35,62 +48,77 @@ public class filereader {
         return backpath;
     }
 
-    public static Stringobject[] getNameOfPath(String Path) {
+    public static String getNameOfPath(String Path) {
 
         File file = new File(Path);
-        File[] fileListName = file.listFiles();
+        Path pathList = file.toPath();
+        Path pathLast = pathList.getName(pathList.getNameCount() - 1);
+        String pathName = pathLast.toString();
 
-        List<Stringobject> stringobjectList = new ArrayList<Stringobject>();
-        for (int i = 0; i < fileListName.length; i++) {
-            Path pathList = fileListName[i].toPath();
-            Path pathLast = pathList.getName(pathList.getNameCount() - 1);
-            String pathName = pathLast.toString();
-
-            Stringobject singelStringobject = new Stringobject(pathName);
-            stringobjectList.add(singelStringobject);
-        }
-        return stringobjectList.toArray(new Stringobject[0]);
+        return pathName;
     }
 
     public static Fileobject[] getInfoFromPath(String infoFromString) {
 
         File infoFromPath = new File(infoFromString);
         File[] fileListName = infoFromPath.listFiles();
+        infoFromPath.list();
 
         List<Fileobject> fileobjectlist = new ArrayList<Fileobject>();
+        List<myThread> myThreadList = new ArrayList<myThread>();
+        List<Thread> threadList = new ArrayList<Thread>();
 
         if (infoFromPath.exists() || infoFromPath.isDirectory()) {
-            System.out.print("Path exists!");
             for (int i = 0; i < fileListName.length; i++) {
-                File fileOfSize = fileListName[i];
-                String filepath = fileListName[i].toString();
-                long sizeOfPath = getSizeFromPath(fileOfSize);
-                FileTypes typeOfPath = findFileType(fileListName[i]);
-
-                Fileobject singleFileObject = new Fileobject(filepath, sizeOfPath, typeOfPath);
-                fileobjectlist.add(singleFileObject);
+                myThread oneTask = new myThread(fileListName[i]);
+                myThreadList.add(oneTask);
+                Thread oneThread = new Thread(oneTask);
+                oneThread.start();
+                threadList.add(oneThread);
             }
-        } else {
-            System.out.println("Path doesn´t exists!");
         }
+        boolean isStillChecking = true;
+        while (isStillChecking) {
+            boolean stillrunning = false;
+            for (Thread t : threadList) {
+                if (t.isAlive()) {
+                    stillrunning = true;
+                }
+            }
+            if (!stillrunning) {
+                isStillChecking = false;
+            }
+        }
+        for (myThread oneTask : myThreadList) {
+            fileobjectlist.add(oneTask.getFileobject());
+        }
+        // checken das alle Tasks fertig sind und hinzufügen
         return fileobjectlist.toArray(new Fileobject[0]);
     }
 
-    private static long getSizeFromPath(File infoFromPath) {
+    static Fileobject createsingleFileObject(File singleFile) {
+        String filepath = singleFile.toString();
+        long sizeOfPath = getSizeFromPath(singleFile);
+        FileTypes typeOfPath = findFileType(singleFile);
+        return new Fileobject(filepath, sizeOfPath, typeOfPath);
+    }
 
-        System.out.println(infoFromPath);
+    private static long getSizeFromPath(File infoFromPath) {
         long sizeOfFile = 0;
-        if (infoFromPath == null)
+        if (infoFromPath == null) {
             return sizeOfFile;
-        if (infoFromPath.isDirectory()) {
-            File[] filesDirectory = infoFromPath.listFiles();
-            if (filesDirectory != null) {
-                for (File subfile : filesDirectory) {
-                    sizeOfFile += getSizeFromPath(subfile);
-                }
-            }
-        } else {
+        }
+        // if it's a file
+        if (!infoFromPath.isDirectory()) {
             sizeOfFile += infoFromPath.length();
+        } else {
+            File[] filesDirectory = infoFromPath.listFiles();
+            if (filesDirectory == null) {
+                return sizeOfFile;
+            }
+            for (File subfile : filesDirectory) {
+                sizeOfFile += getSizeFromPath(subfile);
+            }
         }
         return sizeOfFile;
     }
@@ -116,19 +144,3 @@ public class filereader {
         return roots;
     }
 }
-
-// Windows: C:\Dev\SizeSeeker_old\src\META-INF
-// Mac/Linx: /Dev/SizeSeeker_old/src/
-
-/*
- * Implementiere in dieser KLasse die Funktionalität aus einem gegebenen
- * Pfad(Windows) alle
- * darunter liegenden Ordner/Dateien zu lesen und dessen Größe herauszufinden
- * 
- */
-
-// TODO exists() für search folder/data
-
-// SystemDATA: 1,6,8,9,10,11,14,16,21,23,24
-
-// 16 ist das Gleiche wie 18
