@@ -1,5 +1,7 @@
 package tokyslav;
 
+import java.io.File;
+
 public class Fileobject {
 
     private String filename;
@@ -22,6 +24,11 @@ public class Fileobject {
 
     public FileTypes getFileType() {
         return filetype;
+    }
+
+    public void add(File file) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'add'");
     }
 
 }

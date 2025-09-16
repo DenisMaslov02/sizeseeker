@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -29,6 +30,7 @@ public class GUI {
     private JFrame frame;
     private JLabel actualPathJLabel;
     private JScrollPane centerJPanel;
+    private JScrollPane startCenterJPanel;
 
     private String actualPath = "C:\\";
     private int heightofHeadPanel = 35;
@@ -44,8 +46,10 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.add(headJPanel(), BorderLayout.NORTH);
-        centerJPanel = centerJScrollPane();
-        frame.add(centerJPanel, BorderLayout.CENTER);
+        startCenterJPanel = startCenterJScrollPanel();
+        frame.add(startCenterJPanel, BorderLayout.CENTER);
+        // centerJPanel = centerJScrollPane();
+        // frame.add(centerJPanel, BorderLayout.CENTER);
         frame.add(southJPanel(), BorderLayout.SOUTH);
 
         frame.setVisible(true);
@@ -75,6 +79,43 @@ public class GUI {
     private void goBackButtonFunction() {
         actualPath = filereader.getParent(actualPath);
         recreateCenterJPanel(actualPath);
+    }
+
+    private JScrollPane startCenterJScrollPanel() {
+        JPanel startCenterJPanel = new JPanel();
+
+        Dimension d = new Dimension(width, height);
+        startCenterJPanel.setPreferredSize(d);
+        startCenterJPanel.setBackground(Color.white);
+        startCenterJPanel.setLayout(new BoxLayout(startCenterJPanel, BoxLayout.PAGE_AXIS));
+        File[] fileRoots = filereader.getRoots();
+
+        for (int i = 0; i < filereader.getRoots().length; i++) {
+            startCenterJPanel.add(createRootsJPanel(fileRoots[i]));
+        }
+        JScrollPane scrollstartCenterJPanel = new JScrollPane(startCenterJPanel);
+        return scrollstartCenterJPanel;
+    }
+
+    private JPanel createRootsJPanel(File tempNameFile) {
+        JPanel rootsObjectPanel = new JPanel();
+
+        rootsObjectPanel.setLayout(new BorderLayout());
+        rootsObjectPanel.setSize(frame.WIDTH, 30);
+
+        JButton inToRootsButton = new JButton();
+        inToRootsButton.setOpaque(false);
+        inToRootsButton.setContentAreaFilled(false);
+        inToRootsButton.setBorderPainted(false);
+        inToRootsButton.setLayout(new BorderLayout());
+
+        JLabel rootsNameLabel = new JLabel(tempNameFile.toString());
+        inToRootsButton.add(rootsNameLabel, BorderLayout.CENTER);
+
+        rootsObjectPanel.add(inToRootsButton, BorderLayout.CENTER);
+
+        System.out.println(tempNameFile);
+        return rootsObjectPanel;
     }
 
     private JScrollPane centerJScrollPane() {
@@ -109,7 +150,7 @@ public class GUI {
         buttonToPress.setLayout(new BorderLayout());
 
         JButton iconButton = createIcon(tempFileobject);
-        iconButton.addActionListener(e -> openFileExplorer(tempFileobject.getFileName())); 
+        iconButton.addActionListener(e -> openFileExplorer(tempFileobject.getFileName()));
         buttonToPress.add(iconButton, BorderLayout.LINE_START);
 
         JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(), percentageOfSize);
@@ -201,8 +242,8 @@ public class GUI {
         return jLabelWithCustomRect;
     }
 
-    private void openFileExplorer(String pathToOpen){
-        File file = new File (pathToOpen);
+    private void openFileExplorer(String pathToOpen) {
+        File file = new File(pathToOpen);
         Desktop desktop = Desktop.getDesktop();
         try {
             desktop.open(file);
