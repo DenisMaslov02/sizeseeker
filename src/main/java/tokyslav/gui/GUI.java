@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class GUI {
     private JFrame frame;
     private JLabel actualPathJLabel;
     private JScrollPane centerJPanel;
-    private JScrollPane startCenterJPanel;
+    private JPanel startCenterJPanel;
 
     private String actualPath = "C:\\";
     private int heightofHeadPanel = 35;
@@ -46,7 +46,7 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.add(headJPanel(), BorderLayout.NORTH);
-        startCenterJPanel = startCenterJScrollPanel();
+        startCenterJPanel = startCenterJPanel();
         frame.add(startCenterJPanel, BorderLayout.CENTER);
         // centerJPanel = centerJScrollPane();
         // frame.add(centerJPanel, BorderLayout.CENTER);
@@ -69,6 +69,7 @@ public class GUI {
         headPanel.add(goBackButton, BorderLayout.LINE_START);
 
         actualPathJLabel = new JLabel();
+        actualPathJLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         setactualPathJLabelText(actualPath);
         headPanel.add(actualPathJLabel, BorderLayout.CENTER);
 
@@ -81,41 +82,56 @@ public class GUI {
         recreateCenterJPanel(actualPath);
     }
 
-    private JScrollPane startCenterJScrollPanel() {
-        JPanel startCenterJPanel = new JPanel();
+    private JPanel startCenterJPanel() {
 
-        Dimension d = new Dimension(width, height);
-        startCenterJPanel.setPreferredSize(d);
-        startCenterJPanel.setBackground(Color.white);
-        startCenterJPanel.setLayout(new BoxLayout(startCenterJPanel, BoxLayout.PAGE_AXIS));
+        JPanel startCenterJPanel = new JPanel(new GridLayout(2, 1));
+
         File[] fileRoots = filereader.getRoots();
 
-        for (int i = 0; i < filereader.getRoots().length; i++) {
-            startCenterJPanel.add(createRootsJPanel(fileRoots[i]));
+        JPanel startDiagrammJPanel = new JPanel(new GridLayout(1, 2));
+        JPanel startRootsJPanel = new JPanel(new GridLayout(fileRoots.length, 1));
+
+        for (int i = 0; i < fileRoots.length; i++) {
+            createDriveButton(fileRoots[i]);
+            startRootsJPanel.add(createRootsJPanel(fileRoots[i]));
         }
-        JScrollPane scrollstartCenterJPanel = new JScrollPane(startCenterJPanel);
-        return scrollstartCenterJPanel;
+
+        startCenterJPanel.add(startDiagrammJPanel);
+        startCenterJPanel.add(startRootsJPanel);
+
+        return startCenterJPanel;
     }
 
     private JPanel createRootsJPanel(File tempNameFile) {
         JPanel rootsObjectPanel = new JPanel();
 
+        // Visibel Object, after test delet
+        rootsObjectPanel.setBackground(Color.white);
+        rootsObjectPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        // ...
+
         rootsObjectPanel.setLayout(new BorderLayout());
-        rootsObjectPanel.setSize(frame.WIDTH, 30);
+        rootsObjectPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 
-        JButton inToRootsButton = new JButton();
-        inToRootsButton.setOpaque(false);
-        inToRootsButton.setContentAreaFilled(false);
-        inToRootsButton.setBorderPainted(false);
-        inToRootsButton.setLayout(new BorderLayout());
+        ImageIcon driveIcon = new ImageIcon(getImagePath(FileTypes.DRIVE));
+        Image scaledImg = driveIcon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
+        driveIcon = new ImageIcon(scaledImg);
 
-        JLabel rootsNameLabel = new JLabel(tempNameFile.toString());
-        inToRootsButton.add(rootsNameLabel, BorderLayout.CENTER);
+        rootsObjectPanel.add(new JLabel(tempNameFile.toString(), driveIcon, JLabel.LEFT));
 
-        rootsObjectPanel.add(inToRootsButton, BorderLayout.CENTER);
-
-        System.out.println(tempNameFile);
         return rootsObjectPanel;
+    }
+
+    private JButton createDriveButton(File tempNameFile) {
+
+        JButton driveOpenButton = new JButton();
+
+        driveOpenButton.add(createRootsJPanel(tempNameFile));
+        driveOpenButton.setSize(100, 100);
+        driveOpenButton.setBackground(Color.green);
+        driveOpenButton.addActionListener(e -> testPrint());
+
+        return driveOpenButton;
     }
 
     private JScrollPane centerJScrollPane() {
@@ -178,7 +194,7 @@ public class GUI {
                 imgPath = "src\\main\\java\\tokyslav\\gui\\File_Icon_New.png";
                 break;
             case DRIVE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon.png";
+                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Start_Icon.png";
                 break;
             default:
                 imgPath = "src\\main\\java\\tokyslav\\gui\\Other_Icon.png";
@@ -249,5 +265,9 @@ public class GUI {
             desktop.open(file);
         } catch (IOException ex) {
         }
+    }
+
+    private void testPrint() {
+        System.out.println("Test");
     }
 }
