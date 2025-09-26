@@ -59,7 +59,7 @@ public class filereader {
     }
 
     public static Fileobject[] getInfoFromPath(String infoFromString) {
-
+        
         File infoFromPath = new File(infoFromString);
         File[] fileListName = infoFromPath.listFiles();
         infoFromPath.list();

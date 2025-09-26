@@ -31,6 +31,7 @@ public class GUI {
     private JLabel actualPathJLabel;
     private JScrollPane centerJPanel;
     private JPanel startCenterJPanel;
+    private JPanel startHeadJPanel;
 
     private String actualPath = "C:\\";
     private int heightofHeadPanel = 35;
@@ -45,7 +46,8 @@ public class GUI {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.add(headJPanel(), BorderLayout.NORTH);
+        startHeadJPanel = startHeadPanel();
+        frame.add(startHeadJPanel, BorderLayout.NORTH);
         startCenterJPanel = startCenterJPanel();
         frame.add(startCenterJPanel, BorderLayout.CENTER);
         // centerJPanel = centerJScrollPane();
@@ -55,7 +57,98 @@ public class GUI {
         frame.setVisible(true);
     }
 
-    private JPanel headJPanel() {
+    private JPanel startHeadPanel() {
+
+        JPanel startHeadPanel = new JPanel();
+
+        Dimension d = new Dimension(width, heightofHeadPanel);
+        startHeadPanel.setPreferredSize(d);
+        startHeadPanel.setBackground(Color.white);
+        startHeadPanel.setLayout(new BorderLayout());
+
+        JButton settingButton = new JButton();
+
+        settingButton.setText("Settings");
+        settingButton.addActionListener(e -> settingJPanel());
+
+        startHeadPanel.add(settingButton);
+
+        return startHeadPanel;
+    }
+
+    private JPanel startCenterJPanel() {
+
+        JPanel startCenterJPanel = new JPanel(new GridLayout(2, 1));
+
+        File[] fileRoots = filereader.getRoots();
+
+        JPanel startDiagrammJPanel = new JPanel(new GridLayout(1, 2));
+        JPanel startRootsJPanel = new JPanel(new GridLayout(fileRoots.length, 1));
+
+        for (int i = 0; i < fileRoots.length; i++) {
+            startRootsJPanel.add(createRootsJPanel(fileRoots[i]));
+
+        }
+
+        startCenterJPanel.add(startDiagrammJPanel);
+        startCenterJPanel.add(startRootsJPanel);
+
+        return startCenterJPanel;
+    }
+
+    private JPanel createRootsJPanel(File tempNameFile) {
+        JPanel rootsObjectPanel = new JPanel();
+
+        // Visibel Object, after test delet
+        // rootsObjectPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        // ...
+
+        rootsObjectPanel.setBackground(Color.white);
+        rootsObjectPanel.setLayout(new BorderLayout());
+
+        JButton RenamButton = new JButton();
+
+        RenamButton.setOpaque(false);
+        RenamButton.setContentAreaFilled(false);
+        RenamButton.setBorderPainted(false);
+        RenamButton.setLayout(new BorderLayout());
+        RenamButton.addActionListener(e -> getInDriveCenterPanel(tempNameFile.toString()));
+
+        JPanel RenameJPanel = new JPanel();
+        RenameJPanel.setLayout(new BorderLayout());
+
+        RenameJPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+
+        ImageIcon driveIcon = new ImageIcon(getImagePath(FileTypes.DRIVE));
+        Image scaledImg = driveIcon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
+        driveIcon = new ImageIcon(scaledImg);
+
+        RenameJPanel.setBackground(Color.white);
+        RenameJPanel.add(new JLabel(tempNameFile.toString(), driveIcon, JLabel.LEFT));
+
+        RenamButton.add(RenameJPanel);
+
+        rootsObjectPanel.add(RenamButton);
+
+        return rootsObjectPanel;
+    }
+
+    private void getInDriveCenterPanel(String tempDrivePath) {
+        frame.remove(startHeadJPanel);
+        JPanel headJPanel = new JPanel();
+        headJPanel = headJPanel(tempDrivePath);
+        frame.add(headJPanel);
+        frame.repaint();
+    }
+
+    private void settingJPanel() {
+        frame.remove(startHeadJPanel);
+        frame.remove(startCenterJPanel);
+        frame.repaint();
+    }
+
+    // TODO HEADPANEL
+    private JPanel headJPanel(String tempString) {
         JPanel headPanel = new JPanel();
         // headPanel.setSize(width, 200); //funktioniert irgendwie nicht, idk
         Dimension d = new Dimension(width, heightofHeadPanel);
@@ -70,9 +163,9 @@ public class GUI {
 
         actualPathJLabel = new JLabel();
         actualPathJLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        setactualPathJLabelText(actualPath);
+        setactualPathJLabelText(tempString);
         headPanel.add(actualPathJLabel, BorderLayout.CENTER);
-
+        testPrint();
         return headPanel;
     }
 
@@ -81,60 +174,9 @@ public class GUI {
         actualPath = filereader.getParent(actualPath);
         recreateCenterJPanel(actualPath);
     }
+    // TODO Start of ButtonThread
 
-    private JPanel startCenterJPanel() {
-
-        JPanel startCenterJPanel = new JPanel(new GridLayout(2, 1));
-
-        File[] fileRoots = filereader.getRoots();
-
-        JPanel startDiagrammJPanel = new JPanel(new GridLayout(1, 2));
-        JPanel startRootsJPanel = new JPanel(new GridLayout(fileRoots.length, 1));
-
-        for (int i = 0; i < fileRoots.length; i++) {
-            createDriveButton(fileRoots[i]);
-            startRootsJPanel.add(createRootsJPanel(fileRoots[i]));
-        }
-
-        startCenterJPanel.add(startDiagrammJPanel);
-        startCenterJPanel.add(startRootsJPanel);
-
-        return startCenterJPanel;
-    }
-
-    private JPanel createRootsJPanel(File tempNameFile) {
-        JPanel rootsObjectPanel = new JPanel();
-
-        // Visibel Object, after test delet
-        rootsObjectPanel.setBackground(Color.white);
-        rootsObjectPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        // ...
-
-        rootsObjectPanel.setLayout(new BorderLayout());
-        rootsObjectPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-
-        ImageIcon driveIcon = new ImageIcon(getImagePath(FileTypes.DRIVE));
-        Image scaledImg = driveIcon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
-        driveIcon = new ImageIcon(scaledImg);
-
-        rootsObjectPanel.add(new JLabel(tempNameFile.toString(), driveIcon, JLabel.LEFT));
-
-        return rootsObjectPanel;
-    }
-
-    private JButton createDriveButton(File tempNameFile) {
-
-        JButton driveOpenButton = new JButton();
-
-        driveOpenButton.add(createRootsJPanel(tempNameFile));
-        driveOpenButton.setSize(100, 100);
-        driveOpenButton.setBackground(Color.green);
-        driveOpenButton.addActionListener(e -> testPrint());
-
-        return driveOpenButton;
-    }
-
-    private JScrollPane centerJScrollPane() {
+    private JScrollPane centerJScrollPane(String tempActualPath) {
         JPanel centerJPanel = new JPanel();
         // centerJPanel.setSize(frame.WIDTH, frame.HEIGHT - heightofSouthPanel -
         // heightofHeadPanel);
@@ -142,12 +184,13 @@ public class GUI {
         // 100)));
         centerJPanel.setBackground(Color.CYAN);
         centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
-
-        Fileobject[] fileobjectArray = filereader.getInfoFromPath(actualPath);
+        testPrint();
+        Fileobject[] fileobjectArray = filereader.getInfoFromPath(tempActualPath);
         int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
 
         for (int i = 0; i < fileobjectArray.length; i++) {
             centerJPanel.add(createFileObjectPanel(fileobjectArray[i], percentageOfSizeIntArray[i]));
+            testPrint();
         }
         JScrollPane scrollpanel = new JScrollPane(centerJPanel);
         return scrollpanel;
@@ -165,14 +208,15 @@ public class GUI {
         buttonToPress.setBorderPainted(false);
         buttonToPress.setLayout(new BorderLayout());
 
+        // ICON
         JButton iconButton = createIcon(tempFileobject);
         iconButton.addActionListener(e -> openFileExplorer(tempFileobject.getFileName()));
         buttonToPress.add(iconButton, BorderLayout.LINE_START);
-
+        // NAME
         JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(), percentageOfSize);
         fileNameLabel.setOpaque(false);
         buttonToPress.add(fileNameLabel, BorderLayout.CENTER);
-
+        // GET SIZE
         long fileSize = tempFileobject.getSize();
         String fileSizeToDisplay = GUILogic.calculateSizeDisplayNumber(fileSize);
         JLabel fileSizeLabel = new JLabel(fileSizeToDisplay);
@@ -219,7 +263,7 @@ public class GUI {
         actualPath = newPath;
         setactualPathJLabelText(newPath);
         frame.remove(centerJPanel);
-        centerJPanel = centerJScrollPane();
+        centerJPanel = centerJScrollPane(newPath);
         frame.add(centerJPanel, BorderLayout.CENTER);
     }
 
@@ -265,6 +309,12 @@ public class GUI {
             desktop.open(file);
         } catch (IOException ex) {
         }
+    }
+
+    private void testfunction() {
+        // frame.remove(startHeadPanel);
+        // frame.remove(startCenterJPanel);
+        // frame.repaint();
     }
 
     private void testPrint() {
