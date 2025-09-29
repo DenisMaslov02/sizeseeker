@@ -5,11 +5,14 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.plugins.jpeg.JPEGQTable;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -50,8 +53,6 @@ public class GUI {
         frame.add(startHeadJPanel, BorderLayout.NORTH);
         startCenterJPanel = startCenterJPanel();
         frame.add(startCenterJPanel, BorderLayout.CENTER);
-        // centerJPanel = centerJScrollPane();
-        // frame.add(centerJPanel, BorderLayout.CENTER);
         frame.add(southJPanel(), BorderLayout.SOUTH);
 
         frame.setVisible(true);
@@ -135,10 +136,34 @@ public class GUI {
 
     private void getInDriveCenterPanel(String tempDrivePath) {
         frame.remove(startHeadJPanel);
-        JPanel headJPanel = new JPanel();
-        headJPanel = headJPanel(tempDrivePath);
-        frame.add(headJPanel);
+        frame.remove(startCenterJPanel);
         frame.repaint();
+
+        frame.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.BOTH;
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
+
+        JPanel headJPanel = new JPanel();
+        headJPanel.add(headJPanel(tempDrivePath));
+        frame.add(headJPanel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.9;
+
+        JScrollPane centerJScroPanel = new JScrollPane();
+        centerJScroPanel.add(centerJScrollPane(tempDrivePath));
+        frame.add(centerJScroPanel, gbc);
+
+        frame.setVisible(true);
     }
 
     private void settingJPanel() {
@@ -150,11 +175,11 @@ public class GUI {
     // TODO HEADPANEL
     private JPanel headJPanel(String tempString) {
         JPanel headPanel = new JPanel();
-        // headPanel.setSize(width, 200); //funktioniert irgendwie nicht, idk
-        Dimension d = new Dimension(width, heightofHeadPanel);
-        headPanel.setPreferredSize(d);
-        headPanel.setBackground(Color.white);
-        headPanel.setLayout(new BorderLayout());
+        headPanel.setSize(width, 200); // funktioniert irgendwie nicht, idk
+        // Dimension d = new Dimension(width, 35);
+        // headPanel.setPreferredSize(d);
+        // headPanel.setBackground(Color.white);
+        // headPanel.setLayout(new BorderLayout());
 
         JButton goBackButton = new JButton();
         goBackButton.setText("Zurück");// Zurück
@@ -184,13 +209,11 @@ public class GUI {
         // 100)));
         centerJPanel.setBackground(Color.CYAN);
         centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
-        testPrint();
         Fileobject[] fileobjectArray = filereader.getInfoFromPath(tempActualPath);
         int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
 
         for (int i = 0; i < fileobjectArray.length; i++) {
             centerJPanel.add(createFileObjectPanel(fileobjectArray[i], percentageOfSizeIntArray[i]));
-            testPrint();
         }
         JScrollPane scrollpanel = new JScrollPane(centerJPanel);
         return scrollpanel;
@@ -312,9 +335,7 @@ public class GUI {
     }
 
     private void testfunction() {
-        // frame.remove(startHeadPanel);
-        // frame.remove(startCenterJPanel);
-        // frame.repaint();
+
     }
 
     private void testPrint() {
