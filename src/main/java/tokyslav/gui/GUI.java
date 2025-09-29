@@ -9,12 +9,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.SystemColor;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.plugins.jpeg.JPEGQTable;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,8 +37,9 @@ public class GUI {
     private JScrollPane centerJPanel;
     private JPanel startCenterJPanel;
     private JPanel startHeadJPanel;
+    private JPanel headPanel;
+    private JScrollPane centerJScroPanel;
 
-    private String actualPath = "C:\\";
     private int heightofHeadPanel = 35;
     private int heightofSouthPanel = 50;
 
@@ -49,13 +52,35 @@ public class GUI {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        startHeadJPanel = startHeadPanel();
-        frame.add(startHeadJPanel, BorderLayout.NORTH);
-        startCenterJPanel = startCenterJPanel();
-        frame.add(startCenterJPanel, BorderLayout.CENTER);
-        frame.add(southJPanel(), BorderLayout.SOUTH);
+        startGUIJPanel();
 
         frame.setVisible(true);
+    }
+
+    private JPanel startGUIJPanel() {
+
+        JPanel startJPanel = new JPanel();
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.NONE;
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.02;
+
+        startHeadJPanel = startHeadPanel();
+        frame.add(startHeadJPanel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.98;
+        gbc.fill = GridBagConstraints.BOTH;
+        startCenterJPanel = startCenterJPanel();
+        frame.add(startCenterJPanel, gbc);
+        return startJPanel;
     }
 
     private JPanel startHeadPanel() {
@@ -143,24 +168,24 @@ public class GUI {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.fill = GridBagConstraints.NONE;
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        gbc.weighty = 0.1;
+        gbc.weighty = 0.02;
+        gbc.anchor = GridBagConstraints.WEST;
 
-        JPanel headJPanel = new JPanel();
-        headJPanel.add(headJPanel(tempDrivePath));
-        frame.add(headJPanel, gbc);
+        headPanel = headJPanel(tempDrivePath);
+        frame.add(headPanel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 1.0;
-        gbc.weighty = 0.9;
+        gbc.weighty = 0.98;
+        gbc.fill = GridBagConstraints.BOTH;
 
-        JScrollPane centerJScroPanel = new JScrollPane();
-        centerJScroPanel.add(centerJScrollPane(tempDrivePath));
+        centerJScroPanel = centerJScrollPane(tempDrivePath);
         frame.add(centerJScroPanel, gbc);
 
         frame.setVisible(true);
@@ -183,7 +208,7 @@ public class GUI {
 
         JButton goBackButton = new JButton();
         goBackButton.setText("Zurück");// Zurück
-        goBackButton.addActionListener(e -> goBackButtonFunction());
+        goBackButton.addActionListener(e -> goBackButtonFunction(tempString));
         headPanel.add(goBackButton, BorderLayout.LINE_START);
 
         actualPathJLabel = new JLabel();
@@ -195,9 +220,21 @@ public class GUI {
     }
 
     // opens parent directory and lists all of the files there
-    private void goBackButtonFunction() {
-        actualPath = filereader.getParent(actualPath);
-        recreateCenterJPanel(actualPath);
+    private void goBackButtonFunction(String tempActualPath) {
+
+        if (filereader.backToHome(tempActualPath) == true) {
+            frame.remove(headPanel);
+            frame.remove(centerJScroPanel);
+            frame.repaint();
+            startGUIJPanel();
+            frame.setVisible(true);
+
+            return;
+        }
+        // else {
+        // actualPath = filereader.getParent(tempActualPath);
+        // recreateCenterJPanel(actualPath);
+        // }
     }
     // TODO Start of ButtonThread
 
@@ -283,7 +320,6 @@ public class GUI {
     }
 
     private void recreateCenterJPanel(String newPath) {
-        actualPath = newPath;
         setactualPathJLabelText(newPath);
         frame.remove(centerJPanel);
         centerJPanel = centerJScrollPane(newPath);

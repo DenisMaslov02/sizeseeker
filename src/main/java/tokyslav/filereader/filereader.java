@@ -59,7 +59,7 @@ public class filereader {
     }
 
     public static Fileobject[] getInfoFromPath(String infoFromString) {
-        
+
         File infoFromPath = new File(infoFromString);
         File[] fileListName = infoFromPath.listFiles();
         infoFromPath.list();
@@ -142,5 +142,21 @@ public class filereader {
     public static File[] getRoots() {
         File[] roots = File.listRoots();
         return roots;
+    }
+
+    public static boolean backToHome(String Temp) {
+        File[] roots = File.listRoots();
+
+        boolean rootsIndexLoop = false;
+
+        if (rootsIndexLoop == false) {
+            for (int rootsIndex = 0; rootsIndex < roots.length; rootsIndex++) {
+                if (Temp.equals(roots[rootsIndex].toString())) {
+                    rootsIndexLoop = true;
+                    return rootsIndexLoop;
+                }
+            }
+        }
+        return rootsIndexLoop;
     }
 }
