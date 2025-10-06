@@ -17,11 +17,10 @@ public class StartGUI {
     private JPanel startHeadJPanel;
     private JPanel startCenterJPanel;
     private JPanel headPanel;
-    private JScrollPane centerJScroPanel;
+    private JScrollPane centerJScrollPanel;
 
-    public JPanel startGUIJPanel() {
-
-        frame = new JFrame("SizeSeeker");
+    public JPanel startGUIJPanel(JFrame frame2) {
+        frame = frame2;
         frame.setLayout(new GridBagLayout());
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
@@ -135,6 +134,7 @@ public class StartGUI {
         FolderGUI myFolderGUI = new FolderGUI();
 
         deleteFrame();
+        myFolderGUI.getFrame(frame);
 
         frame.setLayout(new GridBagLayout());
 
@@ -147,7 +147,6 @@ public class StartGUI {
         gbc.weightx = 1.0;
         gbc.weighty = 0.02;
         gbc.anchor = GridBagConstraints.WEST;
-
         headPanel = myFolderGUI.headJPanel(tempDrivePath);
         frame.add(headPanel, gbc);
 
@@ -157,8 +156,8 @@ public class StartGUI {
         gbc.weighty = 0.98;
         gbc.fill = GridBagConstraints.BOTH;
 
-        centerJScroPanel = myFolderGUI.centerJScrollPane(tempDrivePath);
-        frame.add(centerJScroPanel, gbc);
+        centerJScrollPanel = myFolderGUI.centerJScrollPane(tempDrivePath);
+        frame.add(centerJScrollPanel, gbc);
 
         frame.setVisible(true);
     }

@@ -21,9 +21,10 @@ public class GUI {
     private int heightofSouthPanel = 50;
 
     public GUI() {
+        frame = new FrameGUI();
 
         StartGUI myStartgui = new StartGUI();
-        myStartgui.startGUIJPanel();
+        myStartgui.startGUIJPanel(frame);
 
         frame.setVisible(true);
     }

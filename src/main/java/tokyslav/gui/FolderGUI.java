@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +31,7 @@ public class FolderGUI {
     private final int height = 800;
     private JFrame frame;
     private JScrollPane centerJPanel;
+    private JScrollPane centerJScrollPanel;
 
     private JLabel actualPathJLabel;
 
@@ -55,10 +59,6 @@ public class FolderGUI {
 
     public JScrollPane centerJScrollPane(String tempActualPath) {
         JPanel centerJPanel = new JPanel();
-        // centerJPanel.setSize(frame.WIDTH, frame.HEIGHT - heightofSouthPanel -
-        // heightofHeadPanel);
-        // centerJPanel.setPreferredSize(new Dimension(frame.WIDTH, (frame.HEIGHT -
-        // 100)));
         centerJPanel.setBackground(Color.CYAN);
         centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
         Fileobject[] fileobjectArray = filereader.getInfoFromPath(tempActualPath);
@@ -136,9 +136,37 @@ public class FolderGUI {
 
     private void recreateCenterJPanel(String newPath) {
         setactualPathJLabelText(newPath);
-        frame.remove(centerJPanel);
-        centerJPanel = centerJScrollPane(newPath);
-        frame.add(centerJPanel, BorderLayout.CENTER);
+        deleteFrame();
+        frame.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.NONE;
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.02;
+        gbc.anchor = GridBagConstraints.WEST;
+        JPanel headPanel = headJPanel(newPath);
+        frame.add(headPanel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.98;
+        gbc.fill = GridBagConstraints.BOTH;
+
+        centerJScrollPanel = centerJScrollPane(newPath);
+        frame.add(centerJScrollPanel, gbc);
+
+        frame.setVisible(true);
+        // frame.getContentPane().remove(centerJScrollPanel);
+        // frame.revalidate();
+        // frame.repaint();
+        // centerJPanel = centerJScrollPane(newPath);
+        // frame.add(centerJPanel, BorderLayout.CENTER);
+        // frame.repaint();
     }
 
     private void setactualPathJLabelText(String textToSet) {
@@ -179,18 +207,17 @@ public class FolderGUI {
 
         if (filereader.backToHome(tempActualPath) == true) {
             deleteFrame();
-            myStartGUI.startGUIJPanel();
+            myStartGUI.startGUIJPanel(frame);
             frame.setVisible(true);
         } else {
-            // frame.getContentPane().removeAll();
-            // frame.revalidate();
-            // frame.repaint();
-            // frame.setVisible(true);
-            // String actualPath = filereader.getParent(tempActualPath);
-            // recreateCenterJPanel(actualPath);
-            // setactualPathJLabelText(actualPath);
+            String newPath = filereader.getParent(tempActualPath);
+            recreateCenterJPanel(newPath);
         }
 
+    }
+
+    public void getFrame(JFrame frame2) {
+        frame = frame2;
     }
 
     private void deleteFrame() {

@@ -3,7 +3,7 @@ package tokyslav.gui;
 import javax.swing.JFrame;
 
 public class SettingGUI {
-    public JFrame frame;
+    public JFrame frame = new JFrame("Settings");
 
     public void settingJPanel() {
         frame.getContentPane().removeAll();
