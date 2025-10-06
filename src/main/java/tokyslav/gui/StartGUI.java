@@ -55,8 +55,6 @@ public class StartGUI {
 
         JPanel startHeadPanel = new JPanel();
 
-        // Dimension d = new Dimension(width, heightofHeadPanel);
-        // startHeadPanel.setPreferredSize(d);
         startHeadPanel.setBackground(Color.white);
         startHeadPanel.setLayout(new BorderLayout());
 
@@ -94,11 +92,10 @@ public class StartGUI {
     }
 
     private JPanel createRootsJPanel(File tempNameFile) {
-        JPanel rootsObjectPanel = new JPanel();
 
-        // Visibel Object, after test delet
-        // rootsObjectPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        // ...
+        GetImagePath myGetImagePath = new GetImagePath();
+
+        JPanel rootsObjectPanel = new JPanel();
 
         rootsObjectPanel.setBackground(Color.white);
         rootsObjectPanel.setLayout(new BorderLayout());
@@ -115,7 +112,7 @@ public class StartGUI {
         RenameJPanel.setLayout(new BorderLayout());
         RenameJPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 
-        ImageIcon driveIcon = new ImageIcon(getImagePath(FileTypes.DRIVE));
+        ImageIcon driveIcon = new ImageIcon(myGetImagePath.getImagePath(FileTypes.DRIVE));
         Image scaledImg = driveIcon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
         driveIcon = new ImageIcon(scaledImg);
 
@@ -167,26 +164,5 @@ public class StartGUI {
         frame.revalidate();
         frame.repaint();
         frame.setVisible(true);
-    }
-
-    private String getImagePath(FileTypes type) {
-        String imgPath;
-        // Sie WIXXA!
-        // Isch red schon mit dir du Sau
-        switch (type) {
-            case DIRECTORY:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon_New.png";
-                break;
-            case FILE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\File_Icon_New.png";
-                break;
-            case DRIVE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Start_Icon.png";
-                break;
-            default:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Other_Icon.png";
-                break;
-        }
-        return imgPath;
     }
 }

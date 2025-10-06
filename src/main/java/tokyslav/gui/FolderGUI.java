@@ -39,11 +39,6 @@ public class FolderGUI {
 
     public JPanel headJPanel(String tempString) {
         JPanel headPanel = new JPanel();
-        headPanel.setSize(width, 200); // funktioniert irgendwie nicht, idk
-        // Dimension d = new Dimension(width, 35);
-        // headPanel.setPreferredSize(d);
-        // headPanel.setBackground(Color.white);
-        // headPanel.setLayout(new BorderLayout());
 
         JButton goBackButton = new JButton();
         goBackButton.setText("Zurück");// Zurück
@@ -103,27 +98,11 @@ public class FolderGUI {
         return fileObjectPanel;
     }
 
-    private String getImagePath(FileTypes type) {
-        String imgPath;
-        switch (type) {
-            case DIRECTORY:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon_New.png";
-                break;
-            case FILE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\File_Icon_New.png";
-                break;
-            case DRIVE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Start_Icon.png";
-                break;
-            default:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Other_Icon.png";
-                break;
-        }
-        return imgPath;
-    }
-
     private JButton createIcon(Fileobject fileobjectForIcon) {
-        ImageIcon icon = new ImageIcon(getImagePath(fileobjectForIcon.getFileType()));
+
+        GetImagePath myGetImagePath = new GetImagePath();
+
+        ImageIcon icon = new ImageIcon(myGetImagePath.getImagePath(fileobjectForIcon.getFileType()));
         Image img = icon.getImage();
         Image newimg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
@@ -161,12 +140,6 @@ public class FolderGUI {
         frame.add(centerJScrollPanel, gbc);
 
         frame.setVisible(true);
-        // frame.getContentPane().remove(centerJScrollPanel);
-        // frame.revalidate();
-        // frame.repaint();
-        // centerJPanel = centerJScrollPane(newPath);
-        // frame.add(centerJPanel, BorderLayout.CENTER);
-        // frame.repaint();
     }
 
     private void setactualPathJLabelText(String textToSet) {

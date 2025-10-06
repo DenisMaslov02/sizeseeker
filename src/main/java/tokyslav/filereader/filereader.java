@@ -10,22 +10,6 @@ import tokyslav.Fileobject;
 
 public class filereader {
 
-    public static void main(String[] args) {
-        // for (int i = 0; i <= 3; i++) {
-        // myThread newThread = new myThread(i);
-        // Thread myThread = new Thread(newThread);
-        // myThread.start();
-        // }
-        File file = new File("C:\\Users\\Phill");
-        File[] fileList = file.listFiles();
-        for (int i = 0; i < fileList.length; i++) {
-            System.out.println(fileList[i]);
-            System.out.println(i);
-        }
-        System.out.println(fileList.length);
-
-    }
-
     public static String getParent(String backpath) {
 
         File[] roots = File.listRoots();
@@ -127,7 +111,9 @@ public class filereader {
 
         FileTypes type;
 
-        if (fileTypee.isFile()) {
+        if (isImage(fileTypee) == true) {
+            type = FileTypes.IMAGE;
+        } else if (fileTypee.isFile()) {
             type = FileTypes.FILE;
         } else if (!fileTypee.isFile() && !fileTypee.isDirectory()) {
             type = FileTypes.OTHER;
@@ -142,6 +128,17 @@ public class filereader {
     public static File[] getRoots() {
         File[] roots = File.listRoots();
         return roots;
+    }
+
+    public static boolean isImage(File file) {
+        if (file.toString().endsWith(".png") || file.toString().endsWith(".jpg")
+                || file.toString().endsWith(".jpeg") || file.toString().endsWith(".gif")
+                || file.toString().endsWith(".bmp") || file.toString().endsWith(".tiff")
+                || file.toString().endsWith(".svg")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static boolean backToHome(String Temp) {
