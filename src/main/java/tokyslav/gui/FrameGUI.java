@@ -11,7 +11,5 @@ public class FrameGUI extends JFrame {
         this.setSize(800, 800);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
     }
-
 }

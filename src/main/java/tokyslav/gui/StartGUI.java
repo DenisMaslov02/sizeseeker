@@ -6,28 +6,23 @@ import tokyslav.FileTypes;
 import tokyslav.filereader.filereader;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 public class StartGUI {
 
-    private final int width = 800;
-    private final int height = 800;
-
     private JFrame frame;
+    private JPanel startJPanel;
     private JPanel startHeadJPanel;
     private JPanel startCenterJPanel;
     private JPanel headPanel;
     private JScrollPane centerJScrollPanel;
 
-    public JPanel startGUIJPanel(JFrame frame2) {
-        frame = frame2;
-        frame.setLayout(new GridBagLayout());
-        frame.setSize(width, height);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public JPanel startGUIJPanel(JFrame tempFrame) {
 
-        JPanel startJPanel = new JPanel();
-        frame.setLayout(new GridBagLayout());
+        frame = tempFrame;
+        startJPanel = new JPanel();
+        startJPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.NONE;
@@ -36,9 +31,10 @@ public class StartGUI {
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.02;
+        gbc.anchor = GridBagConstraints.WEST;
 
         startHeadJPanel = startHeadPanel();
-        frame.add(startHeadJPanel, gbc);
+        startJPanel.add(startHeadJPanel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -46,12 +42,15 @@ public class StartGUI {
         gbc.weighty = 0.98;
         gbc.fill = GridBagConstraints.BOTH;
         startCenterJPanel = startCenterJPanel();
-        frame.add(startCenterJPanel, gbc);
-        frame.setVisible(true);
+        startJPanel.add(startCenterJPanel, gbc);
+
         return startJPanel;
     }
 
     private JPanel startHeadPanel() {
+
+        SettingGUI settingGUI = new SettingGUI();
+        // settingGUI.setFrame(frame);
 
         JPanel startHeadPanel = new JPanel();
 
@@ -61,10 +60,7 @@ public class StartGUI {
         JButton settingButton = new JButton();
 
         settingButton.setText("Settings");
-        settingButton.addActionListener(e -> {
-            SettingGUI settingGUI = new SettingGUI();
-            settingGUI.settingJPanel();
-        });
+        settingButton.addActionListener(e -> settingGUI.settingJPanel());
 
         startHeadPanel.add(settingButton);
 
@@ -126,15 +122,16 @@ public class StartGUI {
         return rootsObjectPanel;
     }
 
-    private void getInDriveCenterPanel(String tempDrivePath) {
-
+    private JFrame getInDriveCenterPanel(String tempDrivePath) {
+        System.out.println("Drive path: " + tempDrivePath);
         FolderGUI myFolderGUI = new FolderGUI();
+        // frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 
-        deleteFrame();
-        myFolderGUI.getFrame(frame);
+        frame.remove(startJPanel);
 
-        frame.setLayout(new GridBagLayout());
+        JPanel inToDriveJPanel = new JPanel();
 
+        inToDriveJPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.NONE;
@@ -145,7 +142,7 @@ public class StartGUI {
         gbc.weighty = 0.02;
         gbc.anchor = GridBagConstraints.WEST;
         headPanel = myFolderGUI.headJPanel(tempDrivePath);
-        frame.add(headPanel, gbc);
+        inToDriveJPanel.add(headPanel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -154,15 +151,11 @@ public class StartGUI {
         gbc.fill = GridBagConstraints.BOTH;
 
         centerJScrollPanel = myFolderGUI.centerJScrollPane(tempDrivePath);
-        frame.add(centerJScrollPanel, gbc);
-
-        frame.setVisible(true);
-    }
-
-    private void deleteFrame() {
-        frame.getContentPane().removeAll();
+        inToDriveJPanel.add(centerJScrollPanel, gbc);
+        frame.add(inToDriveJPanel);
         frame.revalidate();
         frame.repaint();
         frame.setVisible(true);
+        return frame;
     }
 }

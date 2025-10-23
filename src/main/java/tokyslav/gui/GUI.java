@@ -7,8 +7,6 @@ import javax.swing.JScrollPane;
 
 public class GUI {
 
-    private final int width = 800;
-    private final int height = 800;
     private JFrame frame;
     private JLabel actualPathJLabel;
     private JScrollPane centerJPanel;
@@ -17,16 +15,21 @@ public class GUI {
     private JPanel headPanel;
     private JScrollPane centerJScroPanel;
 
-    private int heightofHeadPanel = 35;
-    private int heightofSouthPanel = 50;
-
     public GUI() {
-        frame = new FrameGUI();
+
+        frame = new JFrame();
+        frame.setTitle("SizeSeeker");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 800);
+        frame.setLocationRelativeTo(null);
 
         StartGUI myStartgui = new StartGUI();
-        myStartgui.startGUIJPanel(frame);
-
+        frame.add(myStartgui.startGUIJPanel(frame));
         frame.setVisible(true);
+    }
+
+    public JFrame removeAllJpanel(JFrame frame) {
+        return frame;
     }
 
 }

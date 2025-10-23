@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,7 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import tokyslav.FileTypes;
 import tokyslav.Fileobject;
 import tokyslav.filereader.filereader;
 
@@ -35,13 +33,11 @@ public class FolderGUI {
 
     private JLabel actualPathJLabel;
 
-    StartGUI myStartGUI = new StartGUI();
-
     public JPanel headJPanel(String tempString) {
         JPanel headPanel = new JPanel();
 
         JButton goBackButton = new JButton();
-        goBackButton.setText("Zurück");// Zurück
+        goBackButton.setText("Zurück");
         goBackButton.addActionListener(e -> goBackButtonFunction(tempString));
         headPanel.add(goBackButton, BorderLayout.LINE_START);
 
@@ -53,6 +49,7 @@ public class FolderGUI {
     }
 
     public JScrollPane centerJScrollPane(String tempActualPath) {
+        System.out.println("Drive path: " + tempActualPath);
         JPanel centerJPanel = new JPanel();
         centerJPanel.setBackground(Color.CYAN);
         centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
@@ -180,7 +177,7 @@ public class FolderGUI {
 
         if (filereader.backToHome(tempActualPath) == true) {
             deleteFrame();
-            myStartGUI.startGUIJPanel(frame);
+            // myStartGUI.startGUIJPanel(frame);
             frame.setVisible(true);
         } else {
             String newPath = filereader.getParent(tempActualPath);
@@ -189,7 +186,7 @@ public class FolderGUI {
 
     }
 
-    public void getFrame(JFrame frame2) {
+    public void setFrame(JFrame frame2) {
         frame = frame2;
     }
 

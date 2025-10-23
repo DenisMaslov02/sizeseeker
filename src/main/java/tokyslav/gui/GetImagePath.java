@@ -7,19 +7,19 @@ public class GetImagePath {
         String imgPath;
         switch (type) {
             case DIRECTORY:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Icon_New.png";
+                imgPath = "src\\main\\java\\tokyslav\\gui\\IMAGE\\Drive_Icon_New.png";
                 break;
             case FILE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\File_Icon_New.png";
+                imgPath = "src\\main\\java\\tokyslav\\gui\\IMAGE\\File_Icon_New.png";
                 break;
             case DRIVE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Drive_Start_Icon.png";
+                imgPath = "src\\main\\java\\tokyslav\\gui\\IMAGE\\Drive_Start_Icon.png";
                 break;
             case IMAGE:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Image_Icon_New.png";
+                imgPath = "src\\main\\java\\tokyslav\\gui\\IMAGE\\Image_Icon_New.png";
                 break;
             default:
-                imgPath = "src\\main\\java\\tokyslav\\gui\\Other_Icon.png";
+                imgPath = "src\\main\\java\\tokyslav\\gui\\IMAGE\\Other_Icon.png";
                 break;
         }
         return imgPath;
