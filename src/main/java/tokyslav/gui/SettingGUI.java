@@ -4,14 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.io.FileWriter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class SettingGUI {
-    private final int width = 800;
-    private final int height = 800;
     private JFrame frame;
     private JPanel settingHeadJPanel;
     private JPanel settingCenterJPanel;
@@ -25,10 +25,6 @@ public class SettingGUI {
     }
 
     private JPanel createGridBagConstraints() {
-        frame.setLayout(new GridLayout());
-        frame.setSize(width, height);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel settingJPanel = new JPanel();
         frame.setLayout(new GridBagLayout());
@@ -54,8 +50,6 @@ public class SettingGUI {
         frame.add(settingCenterJPanel, gbc);
 
         return settingJPanel;
-
-        // Implementation for creating GridBagConstraints
     }
 
     private JPanel settingHeadJPanel() {
@@ -69,35 +63,40 @@ public class SettingGUI {
         backButton.setText("Back");
         backButton.addActionListener(e -> {
             frame.getContentPane().removeAll();
+            frame.setLayout(new GridLayout());
+            frame.add(startGUI.startGUIJPanel(frame));
             frame.revalidate();
             frame.repaint();
-            // frame.add(startGUI.startGUIJPanel(frame));
-            frame.setVisible(true);
+
         });
 
         JButton GraphicsButton = new JButton();
         GraphicsButton.setText("Graphics Settings");
-        GraphicsButton.addActionListener(e -> {
-            // frame.getContentPane().removeAll();
-            // frame.revalidate();
-            // frame.repaint();
-            // frame.add(startGUI.startGUIJPanel(frame));
-            // frame.setVisible(true);
-        });
+        GraphicsButton.addActionListener(e -> settingsGraphicsJPanel());
         settingHeadPanel.add(backButton, BorderLayout.WEST);
         settingHeadPanel.add(GraphicsButton, BorderLayout.EAST);
 
         return settingHeadPanel;
     }
 
+    private JPanel settingsGraphicsJPanel() {
+
+        return new JPanel();
+    }
+
     private JPanel settingCenterJPanel() {
 
         JPanel settingCenterJPanel = new JPanel(new GridLayout(2, 1));
-
+        for (int i = 0; i < 2; i++) {
+            JPanel settingJPanel = new JPanel();
+            settingJPanel.add(new JLabel("Setting " + (i + 1)));
+            settingCenterJPanel.add(settingJPanel);
+        }
         return settingCenterJPanel;
     }
 
-    public void setFrame(JFrame frame2) {
-        frame = frame2;
+    public void pullFrame(JFrame tempFrame) {
+        frame = tempFrame;
     }
+
 }
