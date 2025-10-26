@@ -6,7 +6,6 @@ import tokyslav.FileTypes;
 import tokyslav.filereader.filereader;
 
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.io.File;
 
 public class StartGUI {
@@ -50,7 +49,7 @@ public class StartGUI {
     private JPanel startHeadPanel() {
 
         SettingGUI settingGUI = new SettingGUI();
-        // settingGUI.setFrame(frame);
+        settingGUI.pullFrame(frame);
 
         JPanel startHeadPanel = new JPanel();
 
@@ -123,9 +122,7 @@ public class StartGUI {
     }
 
     private JFrame getInDriveCenterPanel(String tempDrivePath) {
-        System.out.println("Drive path: " + tempDrivePath);
         FolderGUI myFolderGUI = new FolderGUI();
-        // frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 
         frame.remove(startJPanel);
 
@@ -153,6 +150,7 @@ public class StartGUI {
         centerJScrollPanel = myFolderGUI.centerJScrollPane(tempDrivePath);
         inToDriveJPanel.add(centerJScrollPanel, gbc);
         frame.add(inToDriveJPanel);
+        myFolderGUI.pullFrame(frame);
         frame.revalidate();
         frame.repaint();
         frame.setVisible(true);
