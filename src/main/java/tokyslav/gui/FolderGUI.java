@@ -25,13 +25,13 @@ import tokyslav.filereader.filereader;
 
 public class FolderGUI {
 
-    private final int width = 800;
-    private final int height = 800;
     private JFrame frame;
     private JScrollPane centerJPanel;
     private JScrollPane centerJScrollPanel;
 
     private JLabel actualPathJLabel;
+
+    StartGUI myStartGUI = new StartGUI();
 
     public JPanel headJPanel(String tempString) {
         JPanel headPanel = new JPanel();
@@ -155,7 +155,7 @@ public class FolderGUI {
                 // Farbe für den Hintergrund festlegen (z.B. blau)
                 g.setColor(GUILogic.evaluateColor(percentageToFill));
                 // Rechteck füllen (von links beginnend)
-                g.fillRect(getWidth() - fillWidth, 0, fillWidth, height);
+                g.fillRect(getWidth() - fillWidth, 0, fillWidth, 800);
 
                 // Den Standard-Look (Text etc.) rendern
                 super.paintComponent(g);
@@ -177,7 +177,7 @@ public class FolderGUI {
 
         if (filereader.backToHome(tempActualPath) == true) {
             deleteFrame();
-            // myStartGUI.startGUIJPanel(frame);
+            frame.add(myStartGUI.startGUIJPanel(frame));
             frame.setVisible(true);
         } else {
             String newPath = filereader.getParent(tempActualPath);
@@ -186,14 +186,13 @@ public class FolderGUI {
 
     }
 
-    public void setFrame(JFrame frame2) {
-        frame = frame2;
+    public void pullFrame(JFrame tempFrame) {
+        frame = tempFrame;
     }
 
     private void deleteFrame() {
         frame.getContentPane().removeAll();
         frame.revalidate();
         frame.repaint();
-        frame.setVisible(true);
     }
 }
