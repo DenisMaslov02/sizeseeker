@@ -2,21 +2,20 @@ package tokyslav.gui;
 
 import javax.swing.JFrame;
 
-import tokyslav.Settings.SettingFunctions;
-
 public class GUI {
 
-    private JFrame frame;
+    private JFrame frameGUI;
 
     public GUI() {
-        frame = new FrameGUI();
+
+        FunctionGUI FunctionGUI = new FunctionGUI();
+
+        frameGUI = FunctionGUI.createFrame();
 
         StartGUI myStartgui = new StartGUI();
-        frame.add(myStartgui.startGUIJPanel(frame));
-        frame.setVisible(true);
-
-        SettingFunctions myFunctions = new SettingFunctions();
-        myFunctions.createJSONFile();
+        frameGUI.add(myStartgui.startGUIJPanel());
+        frameGUI.setVisible(true);
+        FunctionGUI.setFrame(frameGUI);
     }
 
 }

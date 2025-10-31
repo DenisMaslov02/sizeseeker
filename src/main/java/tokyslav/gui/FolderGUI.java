@@ -15,7 +15,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,77 +24,146 @@ import tokyslav.filereader.filereader;
 
 public class FolderGUI {
 
-    private JFrame frame;
-    private JScrollPane centerJPanel;
-    private JScrollPane centerJScrollPanel;
-
-    private JLabel actualPathJLabel;
-
     StartGUI myStartGUI = new StartGUI();
 
-    public JPanel headJPanel(String tempString) {
-        JPanel headPanel = new JPanel();
+    public JPanel createJPanelInToDrive(String tempDrivePath) {
+
+        JPanel createFolderGUISetDriveJPanel = new JPanel();
+
+        createFolderGUISetDriveJPanel.setLayout(new GridBagLayout());
+        GridBagConstraints layoutGBCFolderGUI = new GridBagConstraints();
+
+        layoutGBCFolderGUI.fill = GridBagConstraints.NONE;
+
+        layoutGBCFolderGUI.gridx = 0;
+        layoutGBCFolderGUI.gridy = 0;
+        layoutGBCFolderGUI.weightx = 1.0;
+        layoutGBCFolderGUI.weighty = 0.02;
+        layoutGBCFolderGUI.anchor = GridBagConstraints.WEST;
+        JPanel createFolderGUIHeadJPaneltemp = headFolderGUIJPanel(tempDrivePath);
+        createFolderGUISetDriveJPanel.add(createFolderGUIHeadJPaneltemp, layoutGBCFolderGUI);
+
+        layoutGBCFolderGUI.gridx = 0;
+        layoutGBCFolderGUI.gridy = 1;
+        layoutGBCFolderGUI.weightx = 1.0;
+        layoutGBCFolderGUI.weighty = 0.98;
+        layoutGBCFolderGUI.fill = GridBagConstraints.BOTH;
+
+        JScrollPane createFolderGUIJScrollPanetemp = centerJScrollPanel(tempDrivePath);
+        createFolderGUISetDriveJPanel.add(createFolderGUIJScrollPanetemp, layoutGBCFolderGUI);
+
+        return createFolderGUISetDriveJPanel;
+    }
+
+    public JPanel headFolderGUIJPanel(String tempString) {
+        JPanel createFolderGUIHeadJPanel = new JPanel();
+        createFolderGUIHeadJPanel.setLayout(new BorderLayout());
 
         JButton goBackButton = new JButton();
         goBackButton.setText("Zurück");
         goBackButton.addActionListener(e -> goBackButtonFunction(tempString));
-        headPanel.add(goBackButton, BorderLayout.LINE_START);
+        createFolderGUIHeadJPanel.add(goBackButton, BorderLayout.LINE_START);
 
-        actualPathJLabel = new JLabel();
-        actualPathJLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        setactualPathJLabelText(tempString);
-        headPanel.add(actualPathJLabel, BorderLayout.CENTER);
-        return headPanel;
+        JLabel createFolderGUIActualPathJLabel = new JLabel();
+        createFolderGUIActualPathJLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        setActualPathJLabelText(tempString, createFolderGUIActualPathJLabel);
+        createFolderGUIHeadJPanel.add(createFolderGUIActualPathJLabel, BorderLayout.CENTER);
+        return createFolderGUIHeadJPanel;
     }
 
-    public JScrollPane centerJScrollPane(String tempActualPath) {
+    public JScrollPane centerJScrollPanel(String tempActualPath) {
         System.out.println("Drive path: " + tempActualPath);
-        JPanel centerJPanel = new JPanel();
-        centerJPanel.setBackground(Color.CYAN);
-        centerJPanel.setLayout(new BoxLayout(centerJPanel, BoxLayout.PAGE_AXIS));
+        JPanel createFolderGUIcenterJPanel = new JPanel();
+        createFolderGUIcenterJPanel.setBackground(Color.CYAN);
+        createFolderGUIcenterJPanel.setLayout(new BoxLayout(createFolderGUIcenterJPanel, BoxLayout.PAGE_AXIS));
         Fileobject[] fileobjectArray = filereader.getInfoFromPath(tempActualPath);
         int[] percentageOfSizeIntArray = GUILogic.calculatePercentage(fileobjectArray);
 
         for (int i = 0; i < fileobjectArray.length; i++) {
-            centerJPanel.add(createFileObjectPanel(fileobjectArray[i], percentageOfSizeIntArray[i]));
+            createFolderGUIcenterJPanel.add(createFileObjectPanel(fileobjectArray[i], percentageOfSizeIntArray[i]));
         }
-        JScrollPane scrollpanel = new JScrollPane(centerJPanel);
-        return scrollpanel;
+        JScrollPane createFolderGUIScrollPanel = new JScrollPane(createFolderGUIcenterJPanel);
+        return createFolderGUIScrollPanel;
     }
 
     private JPanel createFileObjectPanel(Fileobject tempFileobject, int percentageOfSize) {
-        JPanel fileObjectPanel = new JPanel();
-        fileObjectPanel.setLayout(new BorderLayout());
-        fileObjectPanel.setSize(frame.WIDTH, 50);
-        fileObjectPanel.setPreferredSize(new Dimension(frame.WIDTH, 50));
+        JPanel fileObjectJPanel = new JPanel();
+        fileObjectJPanel.setLayout(new BorderLayout());
+        fileObjectJPanel.setSize(800, 50);
+        fileObjectJPanel.setPreferredSize(new Dimension(800, 50));
 
-        JButton buttonToPress = new JButton();
-        buttonToPress.setOpaque(false);
-        buttonToPress.setContentAreaFilled(false);
-        buttonToPress.setBorderPainted(false);
-        buttonToPress.setLayout(new BorderLayout());
+        JButton createFolderGUIButtonToPress = new JButton();
+        createFolderGUIButtonToPress.setOpaque(false);
+        createFolderGUIButtonToPress.setContentAreaFilled(false);
+        createFolderGUIButtonToPress.setBorderPainted(false);
+        createFolderGUIButtonToPress.setLayout(new BorderLayout());
 
         // ICON
-        JButton iconButton = createIcon(tempFileobject);
-        iconButton.addActionListener(e -> openFileExplorer(tempFileobject.getFileName()));
-        buttonToPress.add(iconButton, BorderLayout.LINE_START);
+        JButton createFolderGUIIconButton = createIcon(tempFileobject);
+        createFolderGUIIconButton.addActionListener(e -> openFileExplorer(tempFileobject.getFileName()));
+        createFolderGUIButtonToPress.add(createFolderGUIIconButton, BorderLayout.LINE_START);
         // NAME
         JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(), percentageOfSize);
         fileNameLabel.setOpaque(false);
-        buttonToPress.add(fileNameLabel, BorderLayout.CENTER);
+        createFolderGUIButtonToPress.add(fileNameLabel, BorderLayout.CENTER);
         // GET SIZE
         long fileSize = tempFileobject.getSize();
         String fileSizeToDisplay = GUILogic.calculateSizeDisplayNumber(fileSize);
         JLabel fileSizeLabel = new JLabel(fileSizeToDisplay);
-        buttonToPress.add(fileSizeLabel, BorderLayout.LINE_END);
+        createFolderGUIButtonToPress.add(fileSizeLabel, BorderLayout.LINE_END);
 
-        buttonToPress.addActionListener(e -> recreateCenterJPanel(tempFileobject.getFileName()));
-        buttonToPress.setSize(fileObjectPanel.WIDTH, fileObjectPanel.HEIGHT);
-        fileObjectPanel.add(buttonToPress);
-        return fileObjectPanel;
+        createFolderGUIButtonToPress.addActionListener(e -> recreateCenterJPanel(tempFileobject.getFileName()));
+        createFolderGUIButtonToPress.setSize(fileObjectJPanel.WIDTH, fileObjectJPanel.HEIGHT);
+        fileObjectJPanel.add(createFolderGUIButtonToPress);
+        return fileObjectJPanel;
     }
 
-    private JButton createIcon(Fileobject fileobjectForIcon) {
+    private void recreateCenterJPanel(String tempString) {
+
+        FunctionGUI.removeContainerPanel();
+
+        JPanel createFunctionGUIrecreateCenterJPanel = new JPanel();
+        createFunctionGUIrecreateCenterJPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints layoutGBCFolderGUICenterJPanel = new GridBagConstraints();
+
+        layoutGBCFolderGUICenterJPanel.fill = GridBagConstraints.NONE;
+
+        layoutGBCFolderGUICenterJPanel.gridx = 0;
+        layoutGBCFolderGUICenterJPanel.gridy = 0;
+        layoutGBCFolderGUICenterJPanel.weightx = 1.0;
+        layoutGBCFolderGUICenterJPanel.weighty = 0.02;
+        layoutGBCFolderGUICenterJPanel.anchor = GridBagConstraints.WEST;
+        JPanel headPanel = headFolderGUIJPanel(tempString);
+        createFunctionGUIrecreateCenterJPanel.add(headPanel, layoutGBCFolderGUICenterJPanel);
+
+        layoutGBCFolderGUICenterJPanel.gridx = 0;
+        layoutGBCFolderGUICenterJPanel.gridy = 1;
+        layoutGBCFolderGUICenterJPanel.weightx = 1.0;
+        layoutGBCFolderGUICenterJPanel.weighty = 0.98;
+        layoutGBCFolderGUICenterJPanel.fill = GridBagConstraints.BOTH;
+
+        JScrollPane centerJScrollPanel = centerJScrollPanel(tempString);
+        createFunctionGUIrecreateCenterJPanel.add(centerJScrollPanel, layoutGBCFolderGUICenterJPanel);
+        FunctionGUI.addContainerPanelToFrame(createFunctionGUIrecreateCenterJPanel);
+    }
+
+    private JLabel setActualPathJLabelText(String textToSet, JLabel actualPathJLabel) {
+        String textToDisplay = "Du befindest dich hier: " + textToSet;
+        actualPathJLabel.setText(textToDisplay);
+        return actualPathJLabel;
+    }
+
+    private void openFileExplorer(String pathToOpen) {
+        File file = new File(pathToOpen);
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            desktop.open(file);
+        } catch (IOException ex) {
+        }
+    }
+
+    public JButton createIcon(Fileobject fileobjectForIcon) {
 
         GetImagePath myGetImagePath = new GetImagePath();
 
@@ -110,41 +178,7 @@ public class FolderGUI {
         return cornerButton;
     }
 
-    private void recreateCenterJPanel(String newPath) {
-        setactualPathJLabelText(newPath);
-        deleteFrame();
-        frame.setLayout(new GridBagLayout());
-
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.fill = GridBagConstraints.NONE;
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.02;
-        gbc.anchor = GridBagConstraints.WEST;
-        JPanel headPanel = headJPanel(newPath);
-        frame.add(headPanel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.98;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        centerJScrollPanel = centerJScrollPane(newPath);
-        frame.add(centerJScrollPanel, gbc);
-
-        frame.setVisible(true);
-    }
-
-    private void setactualPathJLabelText(String textToSet) {
-        String textToDisplay = "Du befindest dich hier: " + textToSet;
-        actualPathJLabel.setText(textToDisplay);
-    }
-
-    private JLabel customJLabel(String textToDisplay, int percentageToFill) {
+    public JLabel customJLabel(String textToDisplay, int percentageToFill) {
         JLabel jLabelWithCustomRect = new JLabel(textToDisplay) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -164,35 +198,18 @@ public class FolderGUI {
         return jLabelWithCustomRect;
     }
 
-    private void openFileExplorer(String pathToOpen) {
-        File file = new File(pathToOpen);
-        Desktop desktop = Desktop.getDesktop();
-        try {
-            desktop.open(file);
-        } catch (IOException ex) {
-        }
-    }
-
     private void goBackButtonFunction(String tempActualPath) {
 
+        StartGUI myStartGUI = new StartGUI();
+
         if (filereader.backToHome(tempActualPath) == true) {
-            deleteFrame();
-            frame.add(myStartGUI.startGUIJPanel(frame));
-            frame.setVisible(true);
+            FunctionGUI.removeContainerPanel();
+            FunctionGUI.addContainerPanelToFrame(myStartGUI.startGUIJPanel());
         } else {
             String newPath = filereader.getParent(tempActualPath);
+            FunctionGUI.removeContainerPanel();
             recreateCenterJPanel(newPath);
         }
 
-    }
-
-    public void pullFrame(JFrame tempFrame) {
-        frame = tempFrame;
-    }
-
-    private void deleteFrame() {
-        frame.getContentPane().removeAll();
-        frame.revalidate();
-        frame.repaint();
     }
 }

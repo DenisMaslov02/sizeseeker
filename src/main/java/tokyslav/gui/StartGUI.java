@@ -10,150 +10,116 @@ import java.io.File;
 
 public class StartGUI {
 
-    private JFrame frame;
-    private JPanel startJPanel;
-    private JPanel startHeadJPanel;
-    private JPanel startCenterJPanel;
-    private JPanel headPanel;
-    private JScrollPane centerJScrollPanel;
+    public JPanel startGUIJPanel() {
 
-    public JPanel startGUIJPanel(JFrame tempFrame) {
+        JPanel startJPanelGUI = new JPanel();
+        startJPanelGUI.setLayout(new GridBagLayout());
+        GridBagConstraints layoutGBCStartGUI = new GridBagConstraints();
 
-        frame = tempFrame;
-        startJPanel = new JPanel();
-        startJPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        layoutGBCStartGUI.fill = GridBagConstraints.NONE;
 
-        gbc.fill = GridBagConstraints.NONE;
+        layoutGBCStartGUI.gridx = 0;
+        layoutGBCStartGUI.gridy = 0;
+        layoutGBCStartGUI.weightx = 1.0;
+        layoutGBCStartGUI.weighty = 0.02;
+        layoutGBCStartGUI.anchor = GridBagConstraints.WEST;
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.02;
-        gbc.anchor = GridBagConstraints.WEST;
+        JPanel startGUIHeadJPanel = startGUIHeadPanel();
+        startJPanelGUI.add(startGUIHeadJPanel, layoutGBCStartGUI);
 
-        startHeadJPanel = startHeadPanel();
-        startJPanel.add(startHeadJPanel, gbc);
+        layoutGBCStartGUI.gridx = 0;
+        layoutGBCStartGUI.gridy = 1;
+        layoutGBCStartGUI.weightx = 1.0;
+        layoutGBCStartGUI.weighty = 0.98;
+        layoutGBCStartGUI.fill = GridBagConstraints.BOTH;
+        JPanel startGUICenterJPanel = startGUICenterJPanel();
+        startJPanelGUI.add(startGUICenterJPanel, layoutGBCStartGUI);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.98;
-        gbc.fill = GridBagConstraints.BOTH;
-        startCenterJPanel = startCenterJPanel();
-        startJPanel.add(startCenterJPanel, gbc);
-
-        return startJPanel;
+        return startJPanelGUI;
     }
 
-    private JPanel startHeadPanel() {
+    private JPanel startGUIHeadPanel() {
 
         SettingGUI settingGUI = new SettingGUI();
-        settingGUI.pullFrame(frame);
 
-        JPanel startHeadPanel = new JPanel();
+        JPanel createStartGUIHeadPanel = new JPanel();
 
-        startHeadPanel.setBackground(Color.white);
-        startHeadPanel.setLayout(new BorderLayout());
+        createStartGUIHeadPanel.setBackground(Color.white);
+        createStartGUIHeadPanel.setLayout(new BorderLayout());
 
-        JButton settingButton = new JButton();
+        JButton headStartGUISettingButton = new JButton();
 
-        settingButton.setText("Settings");
-        settingButton.addActionListener(e -> settingGUI.settingJPanel());
+        headStartGUISettingButton.setText("Settings");
+        headStartGUISettingButton.addActionListener(e -> settingGUI.settingJPanel());
 
-        startHeadPanel.add(settingButton);
+        createStartGUIHeadPanel.add(headStartGUISettingButton);
 
-        return startHeadPanel;
+        return createStartGUIHeadPanel;
     }
 
-    private JPanel startCenterJPanel() {
+    private JPanel startGUICenterJPanel() {
 
-        JPanel startCenterJPanel = new JPanel(new GridLayout(2, 1));
+        JPanel createStartGUICenterJPanel = new JPanel(new GridLayout(2, 1));
 
-        File[] fileRoots = filereader.getRoots();
+        File[] listOfFileRoots = filereader.getRoots();
 
-        JPanel startDiagrammJPanel = new JPanel(new GridLayout(1, 2));
-        JPanel startRootsJPanel = new JPanel(new GridLayout(fileRoots.length, 1));
+        JPanel createStartGUIDiagrammJPanel = new JPanel(new GridLayout(1, 2));
+        JPanel createStartGUIRootsJPanel = new JPanel(new GridLayout(listOfFileRoots.length, 1));
 
-        for (int i = 0; i < fileRoots.length; i++) {
-            startRootsJPanel.add(createRootsJPanel(fileRoots[i]));
+        for (int i = 0; i < listOfFileRoots.length; i++) {
+            createStartGUIRootsJPanel.add(createStartGUIRootsJPanel(listOfFileRoots[i]));
 
         }
 
-        startCenterJPanel.add(startDiagrammJPanel);
-        startCenterJPanel.add(startRootsJPanel);
+        createStartGUICenterJPanel.add(createStartGUIDiagrammJPanel);
+        createStartGUICenterJPanel.add(createStartGUIRootsJPanel);
 
-        return startCenterJPanel;
+        return createStartGUICenterJPanel;
     }
 
-    private JPanel createRootsJPanel(File tempNameFile) {
+    private JPanel createStartGUIRootsJPanel(File tempNameFile) {
 
         GetImagePath myGetImagePath = new GetImagePath();
+        // TODO rename GetImagePath
 
-        JPanel rootsObjectPanel = new JPanel();
+        JPanel createStartGUIRootsJPanel = new JPanel();
 
-        rootsObjectPanel.setBackground(Color.white);
-        rootsObjectPanel.setLayout(new BorderLayout());
+        createStartGUIRootsJPanel.setBackground(Color.white);
+        createStartGUIRootsJPanel.setLayout(new BorderLayout());
 
-        JButton RenamButton = new JButton();
+        JButton createStartGUIButtonForJPanel = new JButton();
 
-        RenamButton.setOpaque(false);
-        RenamButton.setContentAreaFilled(false);
-        RenamButton.setBorderPainted(false);
-        RenamButton.setLayout(new BorderLayout());
-        RenamButton.addActionListener(e -> getInDriveCenterPanel(tempNameFile.toString()));
+        createStartGUIButtonForJPanel.setOpaque(false);
+        createStartGUIButtonForJPanel.setContentAreaFilled(false);
+        createStartGUIButtonForJPanel.setBorderPainted(false);
+        createStartGUIButtonForJPanel.setLayout(new BorderLayout());
+        createStartGUIButtonForJPanel.addActionListener(e -> startGUIGetInDriveCenterPanel(tempNameFile.toString()));
 
-        JPanel RenameJPanel = new JPanel();
-        RenameJPanel.setLayout(new BorderLayout());
-        RenameJPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        JPanel createStartGUIJPanelForDrive = new JPanel();
+        createStartGUIJPanelForDrive.setLayout(new BorderLayout());
+        createStartGUIJPanelForDrive.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 
         ImageIcon driveIcon = new ImageIcon(myGetImagePath.getImagePath(FileTypes.DRIVE));
         Image scaledImg = driveIcon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
         driveIcon = new ImageIcon(scaledImg);
 
-        RenameJPanel.setBackground(Color.white);
-        RenameJPanel.add(new JLabel(tempNameFile.toString(), driveIcon, JLabel.LEFT));
+        createStartGUIJPanelForDrive.setBackground(Color.white);
+        createStartGUIJPanelForDrive.add(new JLabel(tempNameFile.toString(), driveIcon, JLabel.LEFT));
 
-        RenamButton.add(RenameJPanel);
+        createStartGUIButtonForJPanel.add(createStartGUIJPanelForDrive);
 
-        rootsObjectPanel.add(RenamButton);
+        createStartGUIRootsJPanel.add(createStartGUIButtonForJPanel);
 
-        return rootsObjectPanel;
+        return createStartGUIRootsJPanel;
     }
 
-    private JFrame getInDriveCenterPanel(String tempDrivePath) {
+    private void startGUIGetInDriveCenterPanel(String tempDrivePath) {
         FolderGUI myFolderGUI = new FolderGUI();
+        FunctionGUI.removeContainerPanel();
 
-        frame.remove(startJPanel);
-
-        JPanel inToDriveJPanel = new JPanel();
-
-        inToDriveJPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.fill = GridBagConstraints.NONE;
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.02;
-        gbc.anchor = GridBagConstraints.WEST;
-        headPanel = myFolderGUI.headJPanel(tempDrivePath);
-        inToDriveJPanel.add(headPanel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.98;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        centerJScrollPanel = myFolderGUI.centerJScrollPane(tempDrivePath);
-        inToDriveJPanel.add(centerJScrollPanel, gbc);
-        frame.add(inToDriveJPanel);
-        myFolderGUI.pullFrame(frame);
-        frame.revalidate();
-        frame.repaint();
-        frame.setVisible(true);
-        return frame;
+        // JPanel createFolderGUIDriveJPanel =
+        // myFolderGUI.createJPanelInToDrive(tempDrivePath);
+        FunctionGUI.addContainerPanelToFrame(myFolderGUI.createJPanelInToDrive(tempDrivePath));
+        System.out.println(tempDrivePath);
     }
 }
