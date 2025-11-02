@@ -43,9 +43,6 @@ public class FunctionGUI {
     }
 
     public static void addContainerPanelToFrame(JPanel tempJPanel) {
-        // JPanel addingJPanelToFrame = tempJPanel;
-
-        // frameFROMGUI.setLayout(new GridLayout());
         frameFROMGUI.add(tempJPanel);
         frameFROMGUI.revalidate();
         frameFROMGUI.repaint();

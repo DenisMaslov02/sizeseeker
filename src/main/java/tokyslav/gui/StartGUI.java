@@ -16,12 +16,12 @@ public class StartGUI {
         startJPanelGUI.setLayout(new GridBagLayout());
         GridBagConstraints layoutGBCStartGUI = new GridBagConstraints();
 
-        layoutGBCStartGUI.fill = GridBagConstraints.NONE;
+        layoutGBCStartGUI.fill = GridBagConstraints.BOTH;
 
         layoutGBCStartGUI.gridx = 0;
         layoutGBCStartGUI.gridy = 0;
         layoutGBCStartGUI.weightx = 1.0;
-        layoutGBCStartGUI.weighty = 0.02;
+        layoutGBCStartGUI.weighty = 0.04;
         layoutGBCStartGUI.anchor = GridBagConstraints.WEST;
 
         JPanel startGUIHeadJPanel = startGUIHeadPanel();
@@ -30,7 +30,7 @@ public class StartGUI {
         layoutGBCStartGUI.gridx = 0;
         layoutGBCStartGUI.gridy = 1;
         layoutGBCStartGUI.weightx = 1.0;
-        layoutGBCStartGUI.weighty = 0.98;
+        layoutGBCStartGUI.weighty = 0.96;
         layoutGBCStartGUI.fill = GridBagConstraints.BOTH;
         JPanel startGUICenterJPanel = startGUICenterJPanel();
         startJPanelGUI.add(startGUICenterJPanel, layoutGBCStartGUI);
@@ -43,17 +43,17 @@ public class StartGUI {
         SettingGUI settingGUI = new SettingGUI();
 
         JPanel createStartGUIHeadPanel = new JPanel();
-
-        createStartGUIHeadPanel.setBackground(Color.white);
-        createStartGUIHeadPanel.setLayout(new BorderLayout());
+        createStartGUIHeadPanel.setLayout(new BorderLayout(8, 0));
+        createStartGUIHeadPanel.setBackground(Color.WHITE);
 
         JButton headStartGUISettingButton = new JButton();
-
         headStartGUISettingButton.setText("Settings");
-        headStartGUISettingButton.addActionListener(e -> settingGUI.settingJPanel());
+        // headStartGUISettingButton.addActionListener(e -> settingGUI.settingJPanel());
+        createStartGUIHeadPanel.add(headStartGUISettingButton, BorderLayout.WEST);
 
-        createStartGUIHeadPanel.add(headStartGUISettingButton);
-
+        JLabel creatingJLabel = new JLabel("Loading ...", SwingConstants.RIGHT);
+        creatingJLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30));
+        createStartGUIHeadPanel.add(creatingJLabel, BorderLayout.EAST);
         return createStartGUIHeadPanel;
     }
 
@@ -117,9 +117,6 @@ public class StartGUI {
         FolderGUI myFolderGUI = new FolderGUI();
         FunctionGUI.removeContainerPanel();
 
-        // JPanel createFolderGUIDriveJPanel =
-        // myFolderGUI.createJPanelInToDrive(tempDrivePath);
         FunctionGUI.addContainerPanelToFrame(myFolderGUI.createJPanelInToDrive(tempDrivePath));
-        System.out.println(tempDrivePath);
     }
 }

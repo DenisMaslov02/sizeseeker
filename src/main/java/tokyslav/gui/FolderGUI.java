@@ -24,8 +24,6 @@ import tokyslav.filereader.filereader;
 
 public class FolderGUI {
 
-    StartGUI myStartGUI = new StartGUI();
-
     public JPanel createJPanelInToDrive(String tempDrivePath) {
 
         JPanel createFolderGUISetDriveJPanel = new JPanel();
@@ -72,7 +70,6 @@ public class FolderGUI {
     }
 
     public JScrollPane centerJScrollPanel(String tempActualPath) {
-        System.out.println("Drive path: " + tempActualPath);
         JPanel createFolderGUIcenterJPanel = new JPanel();
         createFolderGUIcenterJPanel.setBackground(Color.CYAN);
         createFolderGUIcenterJPanel.setLayout(new BoxLayout(createFolderGUIcenterJPanel, BoxLayout.PAGE_AXIS));
@@ -90,7 +87,6 @@ public class FolderGUI {
         JPanel fileObjectJPanel = new JPanel();
         fileObjectJPanel.setLayout(new BorderLayout());
         fileObjectJPanel.setSize(800, 50);
-        fileObjectJPanel.setPreferredSize(new Dimension(800, 50));
 
         JButton createFolderGUIButtonToPress = new JButton();
         createFolderGUIButtonToPress.setOpaque(false);
@@ -207,7 +203,6 @@ public class FolderGUI {
             FunctionGUI.addContainerPanelToFrame(myStartGUI.startGUIJPanel());
         } else {
             String newPath = filereader.getParent(tempActualPath);
-            FunctionGUI.removeContainerPanel();
             recreateCenterJPanel(newPath);
         }
 
