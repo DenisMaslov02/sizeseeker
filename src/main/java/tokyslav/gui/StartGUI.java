@@ -21,7 +21,7 @@ public class StartGUI {
         layoutGBCStartGUI.gridx = 0;
         layoutGBCStartGUI.gridy = 0;
         layoutGBCStartGUI.weightx = 1.0;
-        layoutGBCStartGUI.weighty = 0.04;
+        layoutGBCStartGUI.weighty = 0.02;
         layoutGBCStartGUI.anchor = GridBagConstraints.WEST;
 
         JPanel startGUIHeadJPanel = startGUIHeadPanel();
@@ -51,7 +51,12 @@ public class StartGUI {
         // headStartGUISettingButton.addActionListener(e -> settingGUI.settingJPanel());
         createStartGUIHeadPanel.add(headStartGUISettingButton, BorderLayout.WEST);
 
-        JLabel creatingJLabel = new JLabel("Loading ...", SwingConstants.RIGHT);
+        ImageIcon getImageIconPath = new ImageIcon(
+                "src\\main\\java\\tokyslav\\gui\\IMAGE\\Loading_Icon_new.gif");
+        Image setScaleImageForImageIcon = getImageIconPath.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        ImageIcon newImageIconLoadingGif = new ImageIcon(setScaleImageForImageIcon);
+
+        JLabel creatingJLabel = new JLabel("Loading", newImageIconLoadingGif, SwingConstants.RIGHT);
         creatingJLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30));
         createStartGUIHeadPanel.add(creatingJLabel, BorderLayout.EAST);
         return createStartGUIHeadPanel;
@@ -111,6 +116,10 @@ public class StartGUI {
         createStartGUIRootsJPanel.add(createStartGUIButtonForJPanel);
 
         return createStartGUIRootsJPanel;
+    }
+
+    public void createLoadingAnimationImageIcon() {
+
     }
 
     private void startGUIGetInDriveCenterPanel(String tempDrivePath) {
