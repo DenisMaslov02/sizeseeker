@@ -46,4 +46,10 @@ public class FunctionGUI {
         return frameFROMGUI;
     }
 
+    public static void refreshFrameForAddJPannel(String tempString) {
+
+        JPanel createStartGUIRootsJPanel = null;
+        frameFROMGUI.remove(createStartGUIRootsJPanel);
+    }
+
 }
