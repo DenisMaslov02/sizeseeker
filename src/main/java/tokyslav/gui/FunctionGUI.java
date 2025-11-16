@@ -1,18 +1,8 @@
 package tokyslav.gui;
 
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.plaf.PanelUI;
 
-import tokyslav.Fileobject;
+import javax.swing.JPanel;
 
 public class FunctionGUI {
 
@@ -43,9 +33,6 @@ public class FunctionGUI {
     }
 
     public static void addContainerPanelToFrame(JPanel tempJPanel) {
-        // JPanel addingJPanelToFrame = tempJPanel;
-
-        // frameFROMGUI.setLayout(new GridLayout());
         frameFROMGUI.add(tempJPanel);
         frameFROMGUI.revalidate();
         frameFROMGUI.repaint();
@@ -57,6 +44,12 @@ public class FunctionGUI {
             frameFROMGUI = new FrameGUI();
         }
         return frameFROMGUI;
+    }
+
+    public static void refreshFrameForAddJPannel(String tempString) {
+
+        JPanel createStartGUIRootsJPanel = null;
+        frameFROMGUI.remove(createStartGUIRootsJPanel);
     }
 
 }

@@ -1,6 +1,7 @@
 package tokyslav.gui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import tokyslav.FileTypes;
 import tokyslav.filereader.filereader;
@@ -16,7 +17,7 @@ public class StartGUI {
         startJPanelGUI.setLayout(new GridBagLayout());
         GridBagConstraints layoutGBCStartGUI = new GridBagConstraints();
 
-        layoutGBCStartGUI.fill = GridBagConstraints.NONE;
+        layoutGBCStartGUI.fill = GridBagConstraints.BOTH;
 
         layoutGBCStartGUI.gridx = 0;
         layoutGBCStartGUI.gridy = 0;
@@ -30,7 +31,7 @@ public class StartGUI {
         layoutGBCStartGUI.gridx = 0;
         layoutGBCStartGUI.gridy = 1;
         layoutGBCStartGUI.weightx = 1.0;
-        layoutGBCStartGUI.weighty = 0.98;
+        layoutGBCStartGUI.weighty = 0.96;
         layoutGBCStartGUI.fill = GridBagConstraints.BOTH;
         JPanel startGUICenterJPanel = startGUICenterJPanel();
         startJPanelGUI.add(startGUICenterJPanel, layoutGBCStartGUI);
@@ -43,16 +44,13 @@ public class StartGUI {
         SettingGUI settingGUI = new SettingGUI();
 
         JPanel createStartGUIHeadPanel = new JPanel();
-
-        createStartGUIHeadPanel.setBackground(Color.white);
-        createStartGUIHeadPanel.setLayout(new BorderLayout());
+        createStartGUIHeadPanel.setLayout(new BorderLayout(8, 0));
+        createStartGUIHeadPanel.setBackground(Color.WHITE);
 
         JButton headStartGUISettingButton = new JButton();
-
         headStartGUISettingButton.setText("Settings");
-        headStartGUISettingButton.addActionListener(e -> settingGUI.settingJPanel());
-
-        createStartGUIHeadPanel.add(headStartGUISettingButton);
+        // headStartGUISettingButton.addActionListener(e -> settingGUI.settingJPanel());
+        createStartGUIHeadPanel.add(headStartGUISettingButton, BorderLayout.WEST);
 
         return createStartGUIHeadPanel;
     }
@@ -78,14 +76,15 @@ public class StartGUI {
     }
 
     private JPanel createStartGUIRootsJPanel(File tempNameFile) {
-
         GetImagePath myGetImagePath = new GetImagePath();
         // TODO rename GetImagePath
+        long totalSpace = tempNameFile.getTotalSpace();
+        long freeSpace = tempNameFile.getFreeSpace();
+        long usedSpace = totalSpace - freeSpace;
 
-        JPanel createStartGUIRootsJPanel = new JPanel();
+        JPanel createStartGUIRootsJPanel = new JPanel(new BorderLayout());
 
         createStartGUIRootsJPanel.setBackground(Color.white);
-        createStartGUIRootsJPanel.setLayout(new BorderLayout());
 
         JButton createStartGUIButtonForJPanel = new JButton();
 
@@ -96,6 +95,8 @@ public class StartGUI {
         createStartGUIButtonForJPanel.addActionListener(e -> startGUIGetInDriveCenterPanel(tempNameFile.toString()));
 
         JPanel createStartGUIJPanelForDrive = new JPanel();
+
+        createStartGUIJPanelForDrive.setBackground(Color.white);
         createStartGUIJPanelForDrive.setLayout(new BorderLayout());
         createStartGUIJPanelForDrive.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 
@@ -103,12 +104,31 @@ public class StartGUI {
         Image scaledImg = driveIcon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
         driveIcon = new ImageIcon(scaledImg);
 
-        createStartGUIJPanelForDrive.setBackground(Color.white);
-        createStartGUIJPanelForDrive.add(new JLabel(tempNameFile.toString(), driveIcon, JLabel.LEFT));
+        JPanel textOfDriveSizeJPanel = new JPanel();
+        textOfDriveSizeJPanel.setBackground(Color.white);
 
-        createStartGUIButtonForJPanel.add(createStartGUIJPanelForDrive);
+        JLabel textSpaceJLabel = new JLabel(GUILogic.calculateSizeDisplayNumber(freeSpace) + " frei "
+                + GUILogic.calculateSizeDisplayNumber(totalSpace));
+        textOfDriveSizeJPanel.setBorder(BorderFactory.createEmptyBorder(45, 1400, 0, 0));
+        textOfDriveSizeJPanel.add(textSpaceJLabel);
 
-        createStartGUIRootsJPanel.add(createStartGUIButtonForJPanel);
+        JPanel grapheOfDriveSizeJPanel = new JPanel();
+        grapheOfDriveSizeJPanel.setBackground(Color.white);
+        grapheOfDriveSizeJPanel.setLayout(new BorderLayout());
+        grapheOfDriveSizeJPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 50));
+
+        JLabel grahpeJLabel = GUILogic.customJLabel("", precentageOfUsedSpace(totalSpace, usedSpace));
+        grahpeJLabel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        grahpeJLabel.setPreferredSize(new Dimension(150, 20));
+        grapheOfDriveSizeJPanel.add(grahpeJLabel);
+
+        createStartGUIJPanelForDrive.add(new JLabel(tempNameFile.toString(), driveIcon, JLabel.LEFT),
+                BorderLayout.WEST);
+        createStartGUIJPanelForDrive.add(textOfDriveSizeJPanel, BorderLayout.CENTER);
+        createStartGUIJPanelForDrive.add(grapheOfDriveSizeJPanel, BorderLayout.EAST);
+
+        createStartGUIButtonForJPanel.add(createStartGUIJPanelForDrive, BorderLayout.CENTER);
+        createStartGUIRootsJPanel.add(createStartGUIButtonForJPanel, BorderLayout.CENTER);
 
         return createStartGUIRootsJPanel;
     }
@@ -117,9 +137,14 @@ public class StartGUI {
         FolderGUI myFolderGUI = new FolderGUI();
         FunctionGUI.removeContainerPanel();
 
-        // JPanel createFolderGUIDriveJPanel =
-        // myFolderGUI.createJPanelInToDrive(tempDrivePath);
         FunctionGUI.addContainerPanelToFrame(myFolderGUI.createJPanelInToDrive(tempDrivePath));
-        System.out.println(tempDrivePath);
+    }
+
+    public int precentageOfUsedSpace(long totalSpace, long usedSpace) {
+        long a = totalSpace;
+        long b = usedSpace * 100;
+        long percentage = b / a;
+
+        return (int) percentage;
     }
 }
