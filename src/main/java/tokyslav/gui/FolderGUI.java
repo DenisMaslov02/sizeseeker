@@ -3,7 +3,7 @@ package tokyslav.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
-
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.OverlayLayout;
 
 import tokyslav.Fileobject;
 import tokyslav.filereader.filereader;
@@ -84,33 +85,73 @@ public class FolderGUI {
     }
 
     private JPanel createFileObjectPanel(Fileobject tempFileobject, int percentageOfSize) {
-        JPanel fileObjectJPanel = new JPanel();
-        fileObjectJPanel.setLayout(new BorderLayout());
-        fileObjectJPanel.setSize(800, 50);
 
+        JPanel fileObjectJPanel = new JPanel();
+        fileObjectJPanel.setBackground(Color.WHITE);
+        fileObjectJPanel.setLayout(new BorderLayout());
+
+        // Hauptbutton
         JButton createFolderGUIButtonToPress = new JButton();
         createFolderGUIButtonToPress.setOpaque(false);
         createFolderGUIButtonToPress.setContentAreaFilled(false);
         createFolderGUIButtonToPress.setBorderPainted(false);
         createFolderGUIButtonToPress.setLayout(new BorderLayout());
 
-        // ICON
+        JPanel insadeButJPanel = new JPanel();
+        insadeButJPanel.setLayout(new GridBagLayout());
+        GridBagConstraints layoutGBCInsideButJPanel = new GridBagConstraints();
+
+        layoutGBCInsideButJPanel.fill = GridBagConstraints.BOTH;
+
+        layoutGBCInsideButJPanel.gridx = 0;
+        layoutGBCInsideButJPanel.gridy = 0;
+        layoutGBCInsideButJPanel.weightx = 0.2;
+        layoutGBCInsideButJPanel.weighty = 1.0;
+
+        // ICON LINKS
         JButton createFolderGUIIconButton = createIcon(tempFileobject);
         createFolderGUIIconButton.addActionListener(e -> openFileExplorer(tempFileobject.getFileName()));
-        createFolderGUIButtonToPress.add(createFolderGUIIconButton, BorderLayout.LINE_START);
-        // NAME
-        JLabel fileNameLabel = customJLabel(tempFileobject.getFileName(), percentageOfSize);
-        fileNameLabel.setOpaque(false);
-        createFolderGUIButtonToPress.add(fileNameLabel, BorderLayout.CENTER);
-        // GET SIZE
-        long fileSize = tempFileobject.getSize();
-        String fileSizeToDisplay = GUILogic.calculateSizeDisplayNumber(fileSize);
-        JLabel fileSizeLabel = new JLabel(fileSizeToDisplay);
-        createFolderGUIButtonToPress.add(fileSizeLabel, BorderLayout.LINE_END);
+        createFolderGUIButtonToPress.add(createFolderGUIIconButton, BorderLayout.WEST);
 
+        insadeButJPanel.add(createFolderGUIButtonToPress, layoutGBCInsideButJPanel);
+
+        // CENTER-PANEL → Name + Graphic
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBackground(Color.WHITE);
+
+        JLabel fileNameLabel = new JLabel(tempFileobject.getFileName());
+        fileNameLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        centerPanel.add(fileNameLabel, BorderLayout.WEST);
+
+        JLabel graphicJLabel = GUILogic.customJLabel("", percentageOfSize);
+        graphicJLabel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        centerPanel.add(graphicJLabel, BorderLayout.EAST);
+
+        layoutGBCInsideButJPanel.gridx = 1;
+        layoutGBCInsideButJPanel.gridy = 0;
+        layoutGBCInsideButJPanel.weightx = 0.6;
+        layoutGBCInsideButJPanel.weighty = 1.0;
+
+        insadeButJPanel.add(centerPanel, layoutGBCInsideButJPanel);
+
+        // SIZE RECHTS
+        JLabel fileSizeLabel = new JLabel(
+                GUILogic.calculateSizeDisplayNumber(tempFileobject.getSize()));
+        JPanel sizePanel = new JPanel();
+        sizePanel.setBackground(Color.WHITE);
+        sizePanel.add(fileSizeLabel);
+
+        layoutGBCInsideButJPanel.gridx = 2;
+        layoutGBCInsideButJPanel.gridy = 0;
+        layoutGBCInsideButJPanel.weightx = 0.2;
+        layoutGBCInsideButJPanel.weighty = 1.0;
+
+        insadeButJPanel.add(sizePanel, layoutGBCInsideButJPanel);
+
+        // Button Action
         createFolderGUIButtonToPress.addActionListener(e -> recreateCenterJPanel(tempFileobject.getFileName()));
-        createFolderGUIButtonToPress.setSize(fileObjectJPanel.WIDTH, fileObjectJPanel.HEIGHT);
-        fileObjectJPanel.add(createFolderGUIButtonToPress);
+
+        fileObjectJPanel.add(createFolderGUIButtonToPress, BorderLayout.CENTER);
         return fileObjectJPanel;
     }
 
@@ -172,26 +213,6 @@ public class FolderGUI {
         cornerButton.setBorder(BorderFactory.createEmptyBorder());
         cornerButton.setContentAreaFilled(false);
         return cornerButton;
-    }
-
-    public JLabel customJLabel(String textToDisplay, int percentageToFill) {
-        JLabel jLabelWithCustomRect = new JLabel(textToDisplay) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                float a = percentageToFill;
-                float b = a / 100;
-                float c = b * getWidth();
-                int fillWidth = (int) c;
-                // Farbe für den Hintergrund festlegen (z.B. blau)
-                g.setColor(GUILogic.evaluateColor(percentageToFill));
-                // Rechteck füllen (von links beginnend)
-                g.fillRect(getWidth() - fillWidth, 0, fillWidth, 800);
-
-                // Den Standard-Look (Text etc.) rendern
-                super.paintComponent(g);
-            }
-        };
-        return jLabelWithCustomRect;
     }
 
     private void goBackButtonFunction(String tempActualPath) {

@@ -76,8 +76,8 @@ public class StartGUI {
     }
 
     private JPanel createStartGUIRootsJPanel(File tempNameFile) {
-        GetImagePath myGetImagePath = new GetImagePath();
-        // TODO rename GetImagePath
+        GetImagePath getMyClassGetImagePath = new GetImagePath();
+
         long totalSpace = tempNameFile.getTotalSpace();
         long freeSpace = tempNameFile.getFreeSpace();
         long usedSpace = totalSpace - freeSpace;
@@ -100,7 +100,7 @@ public class StartGUI {
         createStartGUIJPanelForDrive.setLayout(new BorderLayout());
         createStartGUIJPanelForDrive.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 
-        ImageIcon driveIcon = new ImageIcon(myGetImagePath.getImagePath(FileTypes.DRIVE));
+        ImageIcon driveIcon = new ImageIcon(getMyClassGetImagePath.getImagePath(FileTypes.DRIVE));
         Image scaledImg = driveIcon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
         driveIcon = new ImageIcon(scaledImg);
 
@@ -109,7 +109,7 @@ public class StartGUI {
 
         JLabel textSpaceJLabel = new JLabel(GUILogic.calculateSizeDisplayNumber(freeSpace) + " frei "
                 + GUILogic.calculateSizeDisplayNumber(totalSpace));
-        textOfDriveSizeJPanel.setBorder(BorderFactory.createEmptyBorder(45, 1400, 0, 0));
+        textOfDriveSizeJPanel.setBorder(BorderFactory.createEmptyBorder(45, 0, 0, 0));
         textOfDriveSizeJPanel.add(textSpaceJLabel);
 
         JPanel grapheOfDriveSizeJPanel = new JPanel();
@@ -125,7 +125,7 @@ public class StartGUI {
         createStartGUIJPanelForDrive.add(new JLabel(tempNameFile.toString(), driveIcon, JLabel.LEFT),
                 BorderLayout.WEST);
         createStartGUIJPanelForDrive.add(textOfDriveSizeJPanel, BorderLayout.CENTER);
-        createStartGUIJPanelForDrive.add(grapheOfDriveSizeJPanel, BorderLayout.EAST);
+        createStartGUIJPanelForDrive.add(grapheOfDriveSizeJPanel, BorderLayout.LINE_END);
 
         createStartGUIButtonForJPanel.add(createStartGUIJPanelForDrive, BorderLayout.CENTER);
         createStartGUIRootsJPanel.add(createStartGUIButtonForJPanel, BorderLayout.CENTER);

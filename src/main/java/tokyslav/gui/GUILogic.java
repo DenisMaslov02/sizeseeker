@@ -1,5 +1,6 @@
 package tokyslav.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.text.DecimalFormat;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 
 import tokyslav.Fileobject;
 
