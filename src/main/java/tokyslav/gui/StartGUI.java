@@ -3,11 +3,22 @@ package tokyslav.gui;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYDotRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.DefaultXYDataset;
+
 import tokyslav.FileTypes;
 import tokyslav.filereader.filereader;
 
 import java.awt.*;
 import java.io.File;
+
+// import org.jfree.data.xy.*;
 
 public class StartGUI {
 
@@ -62,7 +73,14 @@ public class StartGUI {
         File[] listOfFileRoots = filereader.getRoots();
 
         JPanel createStartGUIDiagrammJPanel = new JPanel(new GridLayout(1, 2));
-        JPanel createStartGUIRootsJPanel = new JPanel(new GridLayout(listOfFileRoots.length, 1));
+
+        JPanel diagrammPlaceHolderJPanel = new JPanel();
+
+        diagrammPlaceHolderJPanel.setBackground(Color.white);
+
+        createStartGUIDiagrammJPanel.add(diagrammJPanelCentert(), BorderLayout.CENTER);
+        createStartGUIDiagrammJPanel.add(diagrammPlaceHolderJPanel);
+        JPanel createStartGUIRootsJPanel = new JPanel(new GridLayout(listOfFileRoots.length, 0));
 
         for (int i = 0; i < listOfFileRoots.length; i++) {
             createStartGUIRootsJPanel.add(createStartGUIRootsJPanel(listOfFileRoots[i]));
@@ -131,6 +149,34 @@ public class StartGUI {
         createStartGUIRootsJPanel.add(createStartGUIButtonForJPanel, BorderLayout.CENTER);
 
         return createStartGUIRootsJPanel;
+    }
+
+    private static JLabel diagrammJPanelCentert() {
+
+        String title = "Drive INFO";
+        String xAxisTimeString = "Months";
+        String yAxis = "Size in GB";
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.addValue(1, "Files", "Jan");
+        dataset.addValue(3, "Files", "Feb");
+        dataset.addValue(2, "Files", "Mar");
+
+        JFreeChart chart = ChartFactory.createLineChart(
+                title,
+                xAxisTimeString,
+                yAxis,
+                dataset);
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+
+        JLabel createDiagrammJPanelCenter = new JLabel();
+        createDiagrammJPanelCenter.setLayout(new BorderLayout());
+        createDiagrammJPanelCenter.setBackground(Color.WHITE);
+
+        createDiagrammJPanelCenter.add(chartPanel);
+
+        return createDiagrammJPanelCenter;
     }
 
     private void startGUIGetInDriveCenterPanel(String tempDrivePath) {
